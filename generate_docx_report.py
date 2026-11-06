@@ -69,7 +69,7 @@ def add_header_block():
         ("Student Name:", "Emmanuel Siaw Asante"),
         ("Student ID / Index Number:", "PYT230047"),
         ("Course Lecturer:", "Mr. Harry Attieku-Boateng"),
-        ("GitHub Repository Link:", "https://github.com/wisabuilds/PUIT-Assignment1-ML-Classification"),
+        ("GitHub Repository Link:", "https://github.com/s47user/PUIT-Assignment1-ML-Classification"),
         ("Deployed Web Application:", "https://puit-assignment1-ml-classification.streamlit.app/"),
         ("Submission Date / Deadline:", "November 2026 | Deadline: November 30th")
     ]

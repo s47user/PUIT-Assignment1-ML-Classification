@@ -66,7 +66,7 @@ Both tasks are unified into an interactive, cloud-ready **Streamlit Web Applicat
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/wisabuilds/PUIT-Assignment1-ML-Classification.git
+git clone https://github.com/s47user/PUIT-Assignment1-ML-Classification.git
 cd PUIT-Assignment1-ML-Classification
 
 # 2. Install dependencies
