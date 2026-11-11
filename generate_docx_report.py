@@ -11,7 +11,7 @@ from docx.oxml.ns import nsdecls, qn
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FIGS_DIR = os.path.join(BASE_DIR, "figures")
 MODELS_DIR = os.path.join(BASE_DIR, "models")
-OUTPUT_DOCX = os.path.join(BASE_DIR, "Assignment1_Technical_Report.docx")
+OUTPUT_DOCX = os.path.join(BASE_DIR, "Emmanuel_Siaw_Asante_PYT230047_Assignment1.docx")
 
 # Load metrics
 metrics_path = os.path.join(MODELS_DIR, "metrics_summary.joblib")
@@ -66,8 +66,8 @@ def add_header_block():
     table.autofit = False
 
     data = [
-        ("Student Name:", "[Add on Submission]"),
-        ("Student ID / Index Number:", "[Add on Submission]"),
+        ("Student Name:", "Emmanuel Siaw Asante"),
+        ("Student ID / Index Number:", "PYT230047"),
         ("Course Lecturer:", "Mr. Harry Attieku-Boateng"),
         ("GitHub Repository Link:", "https://github.com/s47user/PUIT-Assignment1-ML-Classification"),
         ("Deployed Web Application:", "https://puit-assignment1-ml-classification.streamlit.app/"),

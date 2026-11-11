@@ -1,6 +1,7 @@
 # Academic Assignment 1: Machine Learning Classification & Clinical Risk Assessment Suite
 
-**Course:** Applied Artificial Intelligence & Machine Learning  
+**Student Name:** Emmanuel Siaw Asante  
+**Student ID / Index:** PYT230047  
 **Course Lecturer:** Mr. Harry Attieku-Boateng  
 **Academic Institution:** Pentecost University  
 **Submission Deadline:** November 30th  

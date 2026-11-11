@@ -38,6 +38,7 @@ plt.rcParams.update({"font.size": 10, "figure.autolayout": True})
 
 print("="*70)
 print("ACADEMIC ASSIGNMENT 1: MACHINE LEARNING MODELING PIPELINE")
+print("Student: Emmanuel Siaw Asante | ID: PYT230047")
 print("Lecturer: Mr. Harry Attieku-Boateng")
 print("="*70)
 
