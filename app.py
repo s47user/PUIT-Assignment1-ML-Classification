@@ -53,41 +53,28 @@ st.markdown("""
         max-width: 1200px;
     }
 
-    /* Hero Banner Card */
-    .hero-banner {
-        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-        border: 1px solid #334155;
-        border-radius: 16px;
-        padding: 24px 28px;
-        color: #F8FAFC;
+    /* Page Header */
+    .page-header {
+        border-bottom: 1px solid #E2E8F0;
+        padding-bottom: 16px;
         margin-bottom: 24px;
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2);
     }
-    .hero-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(37, 99, 235, 0.2);
-        color: #60A5FA;
-        border: 1px solid rgba(96, 165, 250, 0.3);
-        padding: 4px 12px;
-        border-radius: 9999px;
-        font-size: 11px;
+    .page-breadcrumbs {
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: #64748B;
+        margin-bottom: 4px;
+    }
+    .page-title {
+        font-size: 1.6rem;
         font-weight: 700;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-    }
-    .hero-title {
-        font-size: 26px;
-        font-weight: 800;
-        color: #FFFFFF;
-        margin: 0 0 6px 0;
         letter-spacing: -0.02em;
+        margin: 0 0 6px 0;
+        color: #0F172A;
     }
-    .hero-subtitle {
-        font-size: 14px;
-        color: #94A3B8;
+    .page-subtitle {
+        font-size: 0.90rem;
+        color: #64748B;
         margin: 0;
         line-height: 1.5;
     }
@@ -228,10 +215,10 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 if navigation == "🌸 Task 1: Iris Botanical Classifier":
     st.markdown("""
-    <div class="hero-banner">
-        <div class="hero-tag">Assignment 1 • Task 1 (10 Marks)</div>
-        <h1 class="hero-title">Iris Botanical Species Classification</h1>
-        <p class="hero-subtitle">Supervised multi-class classification pipeline built on Scikit-Learn with automated standardization and Random Forest decision boundary estimation.</p>
+    <div class="page-header">
+        <div class="page-breadcrumbs">Machine Learning Classification / Task 1</div>
+        <h1 class="page-title">Iris Botanical Species Classification</h1>
+        <p class="page-subtitle">Supervised multi-class classification pipeline built on Scikit-Learn with automated standardization and Random Forest decision boundary estimation.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -322,10 +309,10 @@ if navigation == "🌸 Task 1: Iris Botanical Classifier":
 # -----------------------------------------------------------------------------
 elif navigation == "❤️ Task 2: Heart Disease Predictor":
     st.markdown("""
-    <div class="hero-banner">
-        <div class="hero-tag">Assignment 1 • Task 2</div>
-        <h1 class="hero-title">Cardiovascular Disease Clinical Risk Screening</h1>
-        <p class="hero-subtitle">Binary classification engine on 500 patient observations featuring an integrated Scikit-Learn <code>OneHotEncoder(drop='first')</code> pipeline.</p>
+    <div class="page-header">
+        <div class="page-breadcrumbs">Machine Learning Classification / Task 2</div>
+        <h1 class="page-title">Cardiovascular Disease Clinical Risk Screening</h1>
+        <p class="page-subtitle">Binary classification engine on 500 patient observations featuring an integrated Scikit-Learn <code>OneHotEncoder(drop='first')</code> pipeline.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -425,10 +412,10 @@ elif navigation == "❤️ Task 2: Heart Disease Predictor":
 # -----------------------------------------------------------------------------
 elif navigation == "📊 Empirical Model Evaluation":
     st.markdown("""
-    <div class="hero-banner">
-        <div class="hero-tag">Empirical Audit & Validation</div>
-        <h1 class="hero-title">Quantitative Model Performance Benchmarks</h1>
-        <p class="hero-subtitle">Comprehensive validation tables, error confusion matrices, and ROC curves auditing model generalization on unseen test samples.</p>
+    <div class="page-header">
+        <div class="page-breadcrumbs">Machine Learning Classification / Model Benchmarks</div>
+        <h1 class="page-title">Quantitative Model Performance Benchmarks</h1>
+        <p class="page-subtitle">Comprehensive validation tables, error confusion matrices, and ROC curves auditing model generalization on unseen test samples.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -478,10 +465,10 @@ elif navigation == "📊 Empirical Model Evaluation":
 # -----------------------------------------------------------------------------
 elif navigation == "📑 Academic Specifications":
     st.markdown("""
-    <div class="hero-banner">
-        <div class="hero-tag">Course Governance & Integrity</div>
-        <h1 class="hero-title">Academic & Engineering Specifications</h1>
-        <p class="hero-subtitle">Department of Information Technology, Pentecost University • Academic Year 2026/2027</p>
+    <div class="page-header">
+        <div class="page-breadcrumbs">Machine Learning Classification / Coursework Documentation</div>
+        <h1 class="page-title">Academic & Engineering Specifications</h1>
+        <p class="page-subtitle">Department of Information Technology, Pentecost University • Course Assessment Specification</p>
     </div>
     """, unsafe_allow_html=True)
 
