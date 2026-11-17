@@ -577,34 +577,32 @@ elif navigation == "03 // EMPIRICAL VALIDATION MATRIX":
             
             if metrics and "heart" in metrics and "comparison" in metrics["heart"]:
                 comp_rows = metrics["heart"]["comparison"]
-                table_html = """
-                <table class="matrix-table">
-                    <thead>
-                        <tr>
-                            <th>Candidate Estimator</th>
-                            <th>Accuracy</th>
-                            <th>Precision</th>
-                            <th>Recall (Sensitivity)</th>
-                            <th>F1-Score</th>
-                            <th>ROC-AUC</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                """
+                table_rows = []
                 for row in comp_rows:
                     is_best = row.get("Model") == "Logistic Regression"
                     highlight = "background-color: rgba(37, 99, 235, 0.08); font-weight: 600;" if is_best else ""
-                    table_html += f"""
-                        <tr style="{highlight}">
-                            <td><strong style="color: {'#38BDF8' if is_best else '#F8FAFC'};">{row.get('Model')}</strong> {'[Optimal Pipeline]' if is_best else ''}</td>
-                            <td style="font-family: 'JetBrains Mono', monospace;">{row.get('Accuracy')*100:.2f}%</td>
-                            <td style="font-family: 'JetBrains Mono', monospace;">{row.get('Precision')*100:.2f}%</td>
-                            <td style="font-family: 'JetBrains Mono', monospace; color: {'#34D399' if is_best else '#E2E8F0'}; font-weight: 700;">{row.get('Recall')*100:.2f}%</td>
-                            <td style="font-family: 'JetBrains Mono', monospace;">{row.get('F1-Score')*100:.2f}%</td>
-                            <td style="font-family: 'JetBrains Mono', monospace;">{row.get('ROC-AUC'):.3f}</td>
-                        </tr>
-                    """
-                table_html += "</tbody></table>"
+                    tag = " [Optimal Pipeline]" if is_best else ""
+                    color = "#38BDF8" if is_best else "#F8FAFC"
+                    rec_color = "#34D399" if is_best else "#E2E8F0"
+                    table_rows.append(
+                        f'<tr style="{highlight}">'
+                        f'<td><strong style="color: {color};">{row.get("Model")}</strong>{tag}</td>'
+                        f'<td style="font-family: \'JetBrains Mono\', monospace;">{row.get("Accuracy")*100:.2f}%</td>'
+                        f'<td style="font-family: \'JetBrains Mono\', monospace;">{row.get("Precision")*100:.2f}%</td>'
+                        f'<td style="font-family: \'JetBrains Mono\', monospace; color: {rec_color}; font-weight: 700;">{row.get("Recall")*100:.2f}%</td>'
+                        f'<td style="font-family: \'JetBrains Mono\', monospace;">{row.get("F1-Score")*100:.2f}%</td>'
+                        f'<td style="font-family: \'JetBrains Mono\', monospace;">{row.get("ROC-AUC"):.3f}</td>'
+                        f'</tr>'
+                    )
+                table_html = (
+                    '<table class="matrix-table">'
+                    '<thead><tr>'
+                    '<th>Candidate Estimator</th><th>Accuracy</th><th>Precision</th>'
+                    '<th>Recall (Sensitivity)</th><th>F1-Score</th><th>ROC-AUC</th>'
+                    '</tr></thead>'
+                    '<tbody>' + "".join(table_rows) + '</tbody>'
+                    '</table>'
+                )
                 st.markdown(table_html, unsafe_allow_html=True)
                 st.caption("Strategic Rationale: Logistic Regression was selected as the optimal production pipeline because it achieved the highest clinical sensitivity (Recall: 75.47%), directly mitigating critical false-negative patient misclassifications.")
 
@@ -636,38 +634,31 @@ elif navigation == "04 // ACADEMIC & SYSTEM CONTRACTS":
         st.markdown('<div class="hud-eyebrow">ASSESSMENT RECORD</div>', unsafe_allow_html=True)
         st.markdown('<div class="hud-section-title">Candidate & Submission Metadata</div>', unsafe_allow_html=True)
 
-        meta_table = """
-        <table class="matrix-table">
-            <tr>
-                <td style="font-weight: 600; width: 28%; color: #64748B;">Candidate Name</td>
-                <td style="font-weight: 700; color: #F8FAFC;">Emmanuel Siaw Asante</td>
-            </tr>
-            <tr>
-                <td style="font-weight: 600; color: #64748B;">Student ID / Matriculation</td>
-                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38BDF8;">PYT230047</td>
-            </tr>
-            <tr>
-                <td style="font-weight: 600; color: #64748B;">Course Instructor</td>
-                <td style="font-weight: 600; color: #F8FAFC;">Mr. Harry Attieku-Boateng</td>
-            </tr>
-            <tr>
-                <td style="font-weight: 600; color: #64748B;">Academic Department</td>
-                <td>Department of Information Technology, Faculty of Computing & IT</td>
-            </tr>
-            <tr>
-                <td style="font-weight: 600; color: #64748B;">Institution</td>
-                <td>Pentecost University, Sowutuom, Accra, Ghana</td>
-            </tr>
-            <tr>
-                <td style="font-weight: 600; color: #64748B;">Submission Deadline</td>
-                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #F87171;">November 30th</td>
-            </tr>
-            <tr>
-                <td style="font-weight: 600; color: #64748B;">Public Source Repository</td>
-                <td><a href="https://github.com/s47user/PUIT-Assignment1-ML-Classification" target="_blank" style="font-family: 'JetBrains Mono', monospace; color: #38BDF8; font-weight: 600; text-decoration: none;">github.com/s47user/PUIT-Assignment1-ML-Classification</a></td>
-            </tr>
-        </table>
-        """
+        meta_table = (
+            '<table class="matrix-table">'
+            '<tr>'
+            '<td style="font-weight: 600; width: 28%; color: #64748B;">Candidate Name</td>'
+            '<td style="font-weight: 700; color: #F8FAFC;">Emmanuel Siaw Asante</td>'
+            '</tr><tr>'
+            '<td style="font-weight: 600; color: #64748B;">Student ID / Matriculation</td>'
+            '<td style="font-family: \'JetBrains Mono\', monospace; font-weight: 700; color: #38BDF8;">PYT230047</td>'
+            '</tr><tr>'
+            '<td style="font-weight: 600; color: #64748B;">Course Instructor</td>'
+            '<td style="font-weight: 600; color: #F8FAFC;">Mr. Harry Attieku-Boateng</td>'
+            '</tr><tr>'
+            '<td style="font-weight: 600; color: #64748B;">Academic Department</td>'
+            '<td>Department of Information Technology, Faculty of Computing & IT</td>'
+            '</tr><tr>'
+            '<td style="font-weight: 600; color: #64748B;">Institution</td>'
+            '<td>Pentecost University, Sowutuom, Accra, Ghana</td>'
+            '</tr><tr>'
+            '<td style="font-weight: 600; color: #64748B;">Submission Deadline</td>'
+            '<td style="font-family: \'JetBrains Mono\', monospace; font-weight: 700; color: #F87171;">November 30th</td>'
+            '</tr><tr>'
+            '<td style="font-weight: 600; color: #64748B;">Public Source Repository</td>'
+            '<td><a href="https://github.com/s47user/PUIT-Assignment1-ML-Classification" target="_blank" style="font-family: \'JetBrains Mono\', monospace; color: #38BDF8; font-weight: 600; text-decoration: none;">github.com/s47user/PUIT-Assignment1-ML-Classification</a></td>'
+            '</tr></table>'
+        )
         st.markdown(meta_table, unsafe_allow_html=True)
 
     with st.container(border=True):
