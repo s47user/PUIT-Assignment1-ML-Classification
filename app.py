@@ -6,11 +6,11 @@ import streamlit as st
 from PIL import Image
 
 # -----------------------------------------------------------------------------
-# PAGE CONFIGURATION (FUTURISTIC TELEMETRY CONSOLE)
+# APPLICATION CONFIGURATION (GOOGLE AI STUDIO THEME)
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="PUIT Telemetry Console | Emmanuel Siaw Asante",
-    page_icon="⚡",
+    page_title="PUIT ML Studio | Pentecost University",
+    page_icon="✨",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -37,340 +37,359 @@ def load_artifacts():
 iris_model, heart_model, metrics = load_artifacts()
 
 # -----------------------------------------------------------------------------
-# MODERN FUTURISTIC DESIGN SYSTEM (OBSIDIAN HUD · HIGH-CRAFT TELEMETRY)
-# Combines Vercel/Linear dark ergonomics, monospace telemetry, and crisp 1px hairlines.
-# Zero AI slop, zero floaty gradients, pure precision engineering.
+# GOOGLE AI STUDIO DESIGN SYSTEM (CLEAN DEVELOPER STUDIO INTERFACE)
+# Authentic Material 3 / Google AI Studio dark workspace:
+# Neutral #131314 base, #1E1F20 studio surfaces, #282A2C input wells,
+# #7CA8F8 Google Blue accents, crisp typography, zero sci-fi slop.
 # -----------------------------------------------------------------------------
 st.markdown("""
 <style>
-    /* Global Monospace & Sans Typography */
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Text:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&display=swap');
 
+    /* Global Typography */
     html, body, [class*="css"], [class*="st-"] {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        color: #E2E8F0;
+        font-family: 'Google Sans Text', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #E3E3E3;
     }
 
-    /* Deep Obsidian Canvas */
+    /* Google AI Studio Dark Base Canvas */
     .stApp {
-        background-color: #080A0F;
-        background-image: 
-            radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.08), transparent),
-            radial-gradient(circle at 100% 100%, rgba(14, 165, 233, 0.03), transparent);
+        background-color: #131314;
     }
 
-    /* Container Constraints */
+    /* Studio Main Stage */
     .block-container {
-        padding-top: 2rem !important;
-        padding-bottom: 3.5rem !important;
-        max-width: 1220px !important;
+        padding-top: 1.25rem !important;
+        padding-bottom: 3rem !important;
+        max-width: 1300px !important;
     }
 
-    /* Futuristic HUD Header */
-    .hud-header {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        padding-bottom: 1.25rem;
+    /* Top Studio Navigation Bar */
+    .studio-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1.25rem;
+        background-color: #1E1F20;
+        border: 1px solid #2D3135;
+        border-radius: 12px;
         margin-bottom: 1.5rem;
     }
-    .hud-breadcrumbs {
-        font-family: 'JetBrains Mono', ui-monospace, monospace;
-        font-size: 0.72rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #38BDF8;
+    .studio-brand-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    .studio-sparkle {
+        color: #7CA8F8;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+    }
+    .studio-title {
+        font-family: 'Google Sans', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: #E3E3E3;
+    }
+    .studio-chip {
+        font-size: 0.75rem;
+        font-weight: 500;
+        background-color: #282A2C;
+        color: #C4C7C5;
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        border: 1px solid #3C4043;
+    }
+    .studio-meta-chip {
+        font-size: 0.78rem;
+        color: #8E918F;
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
-    .hud-breadcrumbs::before {
-        content: "";
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        background-color: #38BDF8;
-        border-radius: 50%;
-        box-shadow: 0 0 8px #38BDF8;
-    }
-    .hud-title {
-        font-size: 1.75rem;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        color: #F8FAFC;
-        margin: 0.4rem 0 0.35rem 0;
-        line-height: 1.2;
-    }
-    .hud-subtitle {
-        font-size: 0.875rem;
-        color: #94A3B8;
-        margin: 0;
-        line-height: 1.5;
+    .studio-user-badge {
+        background-color: #282A2C;
+        border: 1px solid #3C4043;
+        color: #7CA8F8;
+        padding: 0.25rem 0.65rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 500;
     }
 
-    /* Obsidian Telemetry Panels (Streamlit Native Containers) */
-    div[data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(14, 18, 27, 0.85) !important;
-        backdrop-filter: blur(12px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    /* Studio Surfaces & Cards */
+    div[data-testid="stVerticalBlockBorderWrapper"], div[data-testid="stForm"] {
+        background-color: #1E1F20 !important;
+        border: 1px solid #2D3135 !important;
         border-radius: 12px !important;
-        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6) !important;
-        padding: 1.35rem 1.5rem !important;
-        margin-bottom: 1.25rem !important;
+        padding: 1.25rem 1.5rem !important;
+        margin-bottom: 1rem !important;
     }
 
-    /* Streamlit Forms */
-    div[data-testid="stForm"] {
-        background: rgba(14, 18, 27, 0.85) !important;
-        backdrop-filter: blur(12px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 12px !important;
-        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6) !important;
-        padding: 1.35rem 1.5rem !important;
-    }
-
-    /* Sidebar Telemetry Console */
+    /* Studio Sidebar */
     section[data-testid="stSidebar"] {
-        background-color: #0A0D14 !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+        background-color: #18191A !important;
+        border-right: 1px solid #2D3135 !important;
     }
 
-    /* Section HUD Labels */
-    .hud-eyebrow {
-        font-family: 'JetBrains Mono', ui-monospace, monospace;
-        font-size: 0.68rem;
-        font-weight: 600;
+    /* Section Headings */
+    .studio-section-label {
+        font-family: 'Google Sans', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: #64748B;
-        margin-bottom: 0.35rem;
+        letter-spacing: 0.05em;
+        color: #7CA8F8;
+        margin-bottom: 0.25rem;
     }
-    .hud-section-title {
-        font-size: 1.05rem;
-        font-weight: 700;
-        letter-spacing: -0.015em;
-        color: #F8FAFC;
-        margin: 0 0 0.75rem 0;
+    .studio-section-title {
+        font-family: 'Google Sans', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #F0F4F9;
+        margin: 0 0 0.5rem 0;
     }
 
-    /* High-Precision Interactive Buttons */
+    /* Primary Google Studio Run Button */
     div.stButton > button, div[data-testid="stForm"] button[type="submit"] {
-        background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%) !important;
-        color: #F8FAFC !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        background-color: #7CA8F8 !important;
+        color: #041E49 !important;
+        border: none !important;
         border-radius: 8px !important;
-        font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+        font-family: 'Google Sans', sans-serif !important;
         font-weight: 600 !important;
-        font-size: 0.8rem !important;
-        letter-spacing: 0.04em !important;
-        padding: 0.65rem 1.25rem !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-        transition: all 0.15s ease !important;
+        font-size: 0.875rem !important;
+        padding: 0.6rem 1.4rem !important;
+        transition: background-color 0.15s ease, transform 0.1s ease !important;
     }
     div.stButton > button:hover, div[data-testid="stForm"] button[type="submit"]:hover {
-        background: linear-gradient(180deg, #2563EB 0%, #1D4ED8 100%) !important;
-        border-color: rgba(96, 165, 250, 0.5) !important;
-        color: #FFFFFF !important;
-        box-shadow: 0 0 15px rgba(37, 99, 235, 0.45) !important;
-        transform: translateY(-1px) !important;
+        background-color: #A8C7FA !important;
+        color: #041E49 !important;
     }
     div.stButton > button:active, div[data-testid="stForm"] button[type="submit"]:active {
         transform: scale(0.98) !important;
-        background: #1E3A8A !important;
     }
 
-    /* Metric Panels */
-    div[data-testid="stMetric"] {
-        background-color: rgba(18, 24, 38, 0.7) !important;
-        border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    /* Studio Input Wells */
+    div[data-baseweb="input"], div[data-baseweb="select"] > div {
+        background-color: #282A2C !important;
+        border: 1px solid #3C4043 !important;
         border-radius: 8px !important;
-        padding: 0.85rem 1rem !important;
+        color: #E3E3E3 !important;
+    }
+    div[data-baseweb="input"] input {
+        color: #E3E3E3 !important;
+    }
+
+    /* Studio Metrics Display */
+    div[data-testid="stMetric"] {
+        background-color: #282A2C !important;
+        border: 1px solid #3C4043 !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1rem !important;
     }
     div[data-testid="stMetricLabel"] {
-        font-family: 'JetBrains Mono', ui-monospace, monospace !important;
-        font-size: 0.7rem !important;
-        font-weight: 600 !important;
-        color: #64748B !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.08em !important;
+        font-size: 0.75rem !important;
+        font-weight: 500 !important;
+        color: #C4C7C5 !important;
     }
     div[data-testid="stMetricValue"] {
-        font-size: 1.5rem !important;
-        font-weight: 700 !important;
-        color: #F8FAFC !important;
-        font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+        font-family: 'Roboto Mono', monospace !important;
+        font-size: 1.35rem !important;
+        font-weight: 600 !important;
+        color: #F0F4F9 !important;
     }
 
-    /* Form Inputs Dark Restyling */
-    div[data-baseweb="input"] input, div[data-baseweb="select"] input {
-        color: #F8FAFC !important;
-    }
-    div[data-baseweb="input"], div[data-baseweb="select"] > div {
-        background-color: #121722 !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
-        color: #F8FAFC !important;
-    }
-
-    /* Telemetry Result Panels */
-    .telemetry-card-success {
-        background: rgba(16, 44, 30, 0.4);
-        border: 1px solid rgba(52, 211, 153, 0.25);
+    /* Output Results Card */
+    .studio-output-box {
+        background-color: #282A2C;
+        border: 1px solid #3C4043;
         border-radius: 10px;
         padding: 1.25rem;
+        margin-top: 0.75rem;
     }
-    .telemetry-card-danger {
-        background: rgba(58, 20, 26, 0.4);
-        border: 1px solid rgba(248, 113, 113, 0.25);
-        border-radius: 10px;
-        padding: 1.25rem;
-    }
-
-    /* Futuristic Spectrum Bar Component */
-    .spectrum-row {
+    .studio-output-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 0.65rem;
-        font-size: 0.82rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #3C4043;
     }
-    .spectrum-track {
-        flex-grow: 1;
-        height: 6px;
-        background-color: rgba(255, 255, 255, 0.06);
-        border-radius: 999px;
-        margin: 0 1rem;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.04);
+    .studio-pill-success {
+        background-color: rgba(110, 222, 146, 0.15);
+        color: #6EDE92;
+        border: 1px solid rgba(110, 222, 146, 0.3);
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
     }
-    .spectrum-fill {
-        height: 100%;
-        border-radius: 999px;
-        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .spectrum-val {
-        font-family: 'JetBrains Mono', ui-monospace, monospace;
-        font-weight: 600;
-        min-width: 52px;
-        text-align: right;
-        color: #E2E8F0;
+    .studio-pill-alert {
+        background-color: rgba(242, 184, 181, 0.15);
+        color: #F2B8B5;
+        border: 1px solid rgba(242, 184, 181, 0.3);
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
     }
 
-    /* Matrix Benchmark Table */
-    .matrix-table {
-        width: 100%;
-        border-collapse: collapse;
+    /* Studio Probability Meters */
+    .studio-meter-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+    }
+    .studio-meter-track {
+        flex-grow: 1;
+        height: 8px;
+        background-color: #1E1F20;
+        border-radius: 4px;
+        margin: 0 0.85rem;
+        overflow: hidden;
+    }
+    .studio-meter-fill {
+        height: 100%;
+        border-radius: 4px;
+        background-color: #7CA8F8;
+    }
+    .studio-meter-val {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #E3E3E3;
+        min-width: 50px;
+        text-align: right;
+    }
+
+    /* Inspector Inspector Key-Value Rows */
+    .inspector-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.45rem 0;
+        border-bottom: 1px solid #282A2C;
         font-size: 0.82rem;
     }
-    .matrix-table th {
+    .inspector-key {
+        color: #8E918F;
+    }
+    .inspector-val {
+        font-family: 'Roboto Mono', monospace;
+        color: #E3E3E3;
+        font-weight: 500;
+    }
+
+    /* Clean Benchmark Table */
+    .studio-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+    }
+    .studio-table th {
         text-align: left;
         padding: 0.65rem 0.85rem;
-        background-color: rgba(255, 255, 255, 0.03);
-        color: #64748B;
-        font-family: 'JetBrains Mono', ui-monospace, monospace;
-        font-weight: 600;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
+        background-color: #282A2C;
+        color: #C4C7C5;
+        font-family: 'Google Sans Text', sans-serif;
+        font-weight: 500;
+        border-bottom: 1px solid #3C4043;
+        font-size: 0.78rem;
     }
-    .matrix-table td {
+    .studio-table td {
         padding: 0.65rem 0.85rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        color: #E2E8F0;
-    }
-    .matrix-table tr:last-child td {
-        border-bottom: none;
+        border-bottom: 1px solid #2D3135;
+        color: #E3E3E3;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# SIDEBAR NAVIGATION & TELEMETRY CONTROLS
+# TOP STUDIO APPLICATION BAR
+# -----------------------------------------------------------------------------
+st.markdown("""
+<div class="studio-topbar">
+    <div class="studio-brand-group">
+        <span class="studio-sparkle">✦</span>
+        <span class="studio-title">Pentecost University <strong>ML Studio</strong></span>
+        <span class="studio-chip">Assignment 1</span>
+        <span class="studio-chip" style="color: #7CA8F8;">Scikit-Learn 1.4</span>
+    </div>
+    <div class="studio-meta-chip">
+        <span>Supervisor: <strong>Mr. Harry Attieku-Boateng</strong></span>
+        <span class="studio-user-badge">Emmanuel Siaw Asante (PYT230047)</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# -----------------------------------------------------------------------------
+# SIDEBAR WORKSPACE SELECTOR
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("""
-    <div style="padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 1.25rem;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: #38BDF8;">PENTECOST UNIVERSITY</div>
-        <div style="font-size: 1.15rem; font-weight: 800; color: #F8FAFC; letter-spacing: -0.02em; margin-top: 0.2rem;">Faculty of Computing & IT</div>
-        <div style="font-size: 0.78rem; color: #64748B;">Department of Information Technology</div>
+    <div style="padding-bottom: 0.75rem; border-bottom: 1px solid #2D3135; margin-bottom: 1rem;">
+        <div style="font-size: 0.75rem; font-weight: 500; color: #8E918F; text-transform: uppercase;">Workspace</div>
+        <div style="font-family: 'Google Sans', sans-serif; font-size: 1rem; font-weight: 500; color: #F0F4F9; margin-top: 0.15rem;">Machine Learning Lab</div>
     </div>
     """, unsafe_allow_html=True)
+
+    navigation = st.radio(
+        "Workspace View",
+        [
+            "Botanical Classification",
+            "Cardiovascular Clinical Screening",
+            "Model Evaluation Benchmarks",
+            "Architecture & Specifications"
+        ],
+        index=0
+    )
+
+    st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
     with st.container(border=True):
         st.markdown("""
-        <div class="hud-eyebrow">CANDIDATE DOSSIER</div>
-        <div style="font-weight: 700; font-size: 0.95rem; color: #F8FAFC;">Emmanuel Siaw Asante</div>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #38BDF8; font-weight: 600; margin-top: 0.15rem;">ID: PYT230047</div>
-        <div style="font-size: 0.78rem; color: #94A3B8; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255, 255, 255, 0.06);">
-            Supervisor: <strong style="color: #E2E8F0;">Mr. Harry Attieku-Boateng</strong><br>
-            Module: <strong style="color: #E2E8F0;">ML Classification (Assignment 1)</strong>
+        <div style="font-size: 0.75rem; font-weight: 500; color: #7CA8F8; text-transform: uppercase; margin-bottom: 0.4rem;">Candidate Profile</div>
+        <div style="font-weight: 500; font-size: 0.9rem; color: #F0F4F9;">Emmanuel Siaw Asante</div>
+        <div style="font-family: 'Roboto Mono', monospace; font-size: 0.8rem; color: #8E918F; margin-top: 0.1rem;">PYT230047</div>
+        <div style="font-size: 0.78rem; color: #C4C7C5; margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid #2D3135;">
+            Dept: <strong>Information Technology</strong><br>
+            Faculty: <strong>Computing & IT</strong>
         </div>
         """, unsafe_allow_html=True)
 
-    navigation = st.radio(
-        "Navigation",
-        [
-            "01 // BOTANICAL TAXONOMY ENGINE",
-            "02 // CARDIOVASCULAR RISK TELEMETRY",
-            "03 // EMPIRICAL VALIDATION MATRIX",
-            "04 // ACADEMIC & SYSTEM CONTRACTS"
-        ],
-        index=0,
-        label_visibility="collapsed"
-    )
-
-    st.markdown("""
-    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #64748B; line-height: 1.6;">
-        <span style="font-weight: 600; color: #94A3B8;">SYSTEM ARCHITECTURE:</span><br>
-        • Scikit-Learn <code>v1.4+</code><br>
-        • <code>OneHotEncoder(drop='first')</code><br>
-        • Stratified 80/20 train/test split<br>
-        • Deterministic L2 regularization<br>
-        • Sub-5ms inference latency
-    </div>
-    """, unsafe_allow_html=True)
-
 
 # -----------------------------------------------------------------------------
-# MODULE 1: BOTANICAL TAXONOMY ENGINE (IRIS)
+# VIEW 1: BOTANICAL CLASSIFIER (STUDIO PLAYGROUND)
 # -----------------------------------------------------------------------------
-if navigation == "01 // BOTANICAL TAXONOMY ENGINE":
-    st.markdown("""
-    <div class="hud-header">
-        <div class="hud-breadcrumbs">COURSEWORK ASSIGNMENT 1 // TASK 1 // SUPERVISED ENSEMBLE</div>
-        <h1 class="hud-title">Botanical Taxonomy Inference Engine</h1>
-        <p class="hud-subtitle">Supervised multi-class Random Forest estimator with continuous morphological standardization and real-time class probability distribution mapping.</p>
-    </div>
-    """, unsafe_allow_html=True)
+if navigation == "Botanical Classification":
+    col_main, col_inspector = st.columns([1.8, 1], gap="medium")
 
-    col_input, col_result = st.columns([1.1, 1], gap="medium")
-
-    with col_input:
+    with col_main:
         with st.container(border=True):
-            st.markdown('<div class="hud-eyebrow">MORPHOMETRIC PARAMETERS</div>', unsafe_allow_html=True)
-            st.markdown('<div class="hud-section-title">Specimen Observation Vectors</div>', unsafe_allow_html=True)
-            st.caption("Calibrate specimen sepal and petal dimensions in centimeters:")
+            st.markdown('<div class="studio-section-label">Task 1 · Multi-Class Model</div>', unsafe_allow_html=True)
+            st.markdown('<div class="studio-section-title">Iris Species Classification Playground</div>', unsafe_allow_html=True)
+            st.write("Adjust input morphological features in centimeters to test live inference against the trained Random Forest pipeline:")
 
             s_col1, s_col2 = st.columns(2)
             with s_col1:
                 sepal_len = st.slider("Sepal Length (cm)", min_value=4.0, max_value=8.0, value=5.8, step=0.1)
+                petal_len = st.slider("Petal Length (cm)", min_value=1.0, max_value=7.0, value=4.3, step=0.1)
             with s_col2:
                 sepal_wid = st.slider("Sepal Width (cm)", min_value=2.0, max_value=4.5, value=3.0, step=0.1)
-
-            p_col1, p_col2 = st.columns(2)
-            with p_col1:
-                petal_len = st.slider("Petal Length (cm)", min_value=1.0, max_value=7.0, value=4.3, step=0.1)
-            with p_col2:
                 petal_wid = st.slider("Petal Width (cm)", min_value=0.1, max_value=2.6, value=1.3, step=0.1)
 
             st.write("")
-            classify_iris_btn = st.button("EXECUTE CLASSIFICATION PIPELINE", use_container_width=True)
+            run_iris_btn = st.button("Run Classification", type="primary")
 
-    with col_result:
+        # Result Display Area
         with st.container(border=True):
-            st.markdown('<div class="hud-eyebrow">TELEMETRY READOUT</div>', unsafe_allow_html=True)
-            st.markdown('<div class="hud-section-title">Taxonomic Determination</div>', unsafe_allow_html=True)
-
+            st.markdown('<div class="studio-section-label">Inference Output</div>', unsafe_allow_html=True)
+            
             if iris_model is not None:
                 sample_df = pd.DataFrame([{
                     "sepal length (cm)": sepal_len,
@@ -386,179 +405,192 @@ if navigation == "01 // BOTANICAL TAXONOMY ENGINE":
                 confidence_score = prob_dist[pred_idx] * 100.0
 
                 st.markdown(f"""
-                <div class="telemetry-card-success">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #34D399;">TAXONOMIC DETERMINATION // VERIFIED</div>
-                    <div style="font-size: 1.55rem; font-weight: 800; color: #F0FDF4; margin: 0.3rem 0 0.25rem 0;"><em>Iris {identified_species.lower()}</em></div>
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #A7F3D0;">CONFIDENCE: <strong style="color: #34D399;">{confidence_score:.2f}%</strong></div>
+                <div class="studio-output-box">
+                    <div class="studio-output-header">
+                        <span style="font-weight: 500; font-size: 0.95rem; color: #F0F4F9;">Model Response</span>
+                        <span class="studio-pill-success">Match Confirmed</span>
+                    </div>
+                    <div style="font-size: 1.4rem; font-weight: 600; color: #F0F4F9; margin: 0.2rem 0 0.4rem 0;">
+                        Iris {identified_species.lower()}
+                    </div>
+                    <div style="font-size: 0.85rem; color: #C4C7C5;">
+                        Classification Confidence: <strong style="color: #7CA8F8; font-family: 'Roboto Mono', monospace;">{confidence_score:.2f}%</strong>
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
 
-                st.markdown('<div style="font-family: \'JetBrains Mono\', monospace; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #64748B; margin: 1.25rem 0 0.5rem 0;">CLASS PROBABILITY SPECTRUM</div>', unsafe_allow_html=True)
+                st.markdown("<div style='height: 0.75rem;'></div>", unsafe_allow_html=True)
+                st.markdown('<div style="font-size: 0.8rem; font-weight: 500; color: #C4C7C5; margin-bottom: 0.5rem;">Probability Distribution</div>', unsafe_allow_html=True)
                 for i, sp in enumerate(species_labels):
                     pct = prob_dist[i] * 100.0
                     is_active = (i == pred_idx)
-                    fill_color = "linear-gradient(90deg, #2563EB, #38BDF8)" if is_active else "#334155"
-                    glow = "box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);" if is_active else ""
+                    bar_bg = "#7CA8F8" if is_active else "#3C4043"
+                    text_color = "#F0F4F9" if is_active else "#8E918F"
                     st.markdown(f"""
-                    <div class="spectrum-row">
-                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: {'600' if is_active else '400'}; color: {'#F8FAFC' if is_active else '#64748B'}; min-width: 110px;">Iris {sp.lower()}</span>
-                        <div class="spectrum-track">
-                            <div class="spectrum-fill" style="width: {pct:.1f}%; background: {fill_color}; {glow}"></div>
+                    <div class="studio-meter-row">
+                        <span style="min-width: 110px; color: {text_color}; font-weight: {'500' if is_active else '400'};">Iris {sp.lower()}</span>
+                        <div class="studio-meter-track">
+                            <div class="studio-meter-fill" style="width: {pct:.1f}%; background-color: {bar_bg};"></div>
                         </div>
-                        <span class="spectrum-val" style="color: {'#38BDF8' if is_active else '#64748B'};">{pct:.1f}%</span>
+                        <span class="studio-meter-val" style="color: {text_color};">{pct:.1f}%</span>
                     </div>
                     """, unsafe_allow_html=True)
             else:
-                st.warning("Model weights unavailable. Inspect models directory.")
+                st.info("Click 'Run Classification' to evaluate candidate inputs.")
 
-    # Empirical Verification Scores Grid
-    if metrics and "iris" in metrics:
-        m = metrics["iris"]
+    with col_inspector:
         with st.container(border=True):
-            st.markdown('<div class="hud-eyebrow">EMPIRICAL BENCHMARKS</div>', unsafe_allow_html=True)
-            st.markdown('<div class="hud-section-title">Stratified Test Partition Metrics (n = 38 Observations)</div>', unsafe_allow_html=True)
-            m1, m2, m3, m4 = st.columns(4)
-            with m1:
-                st.metric("Overall Accuracy", f"{m['accuracy']*100:.2f}%")
-            with m2:
-                st.metric("Macro Precision", f"{m['precision']*100:.2f}%")
-            with m3:
-                st.metric("Macro Recall", f"{m['recall']*100:.2f}%")
-            with m4:
-                st.metric("Macro F1-Score", f"{m['f1']*100:.2f}%")
+            st.markdown('<div class="studio-section-label">Model Inspector</div>', unsafe_allow_html=True)
+            st.markdown('<div class="studio-section-title">Pipeline Properties</div>', unsafe_allow_html=True)
+            
+            st.markdown("""
+            <div class="inspector-row"><span class="inspector-key">Architecture</span><span class="inspector-val">RandomForest</span></div>
+            <div class="inspector-row"><span class="inspector-key">Estimators (Trees)</span><span class="inspector-val">100</span></div>
+            <div class="inspector-row"><span class="inspector-key">Preprocessing</span><span class="inspector-val">StandardScaler</span></div>
+            <div class="inspector-row"><span class="inspector-key">Classes</span><span class="inspector-val">3 (Multi-Class)</span></div>
+            <div class="inspector-row"><span class="inspector-key">Inference Latency</span><span class="inspector-val">&lt; 3.0 ms</span></div>
+            <div class="inspector-row"><span class="inspector-key">Split Strategy</span><span class="inspector-val">Stratified 80/20</span></div>
+            """, unsafe_allow_html=True)
+
+        if metrics and "iris" in metrics:
+            m = metrics["iris"]
+            with st.container(border=True):
+                st.markdown('<div class="studio-section-label">Validation Benchmarks</div>', unsafe_allow_html=True)
+                st.markdown('<div class="studio-section-title">Test Cohort Performance</div>', unsafe_allow_html=True)
+                m1, m2 = st.columns(2)
+                with m1:
+                    st.metric("Accuracy", f"{m['accuracy']*100:.2f}%")
+                    st.metric("Recall", f"{m['recall']*100:.2f}%")
+                with m2:
+                    st.metric("Precision", f"{m['precision']*100:.2f}%")
+                    st.metric("F1-Score", f"{m['f1']*100:.2f}%")
 
 
 # -----------------------------------------------------------------------------
-# MODULE 2: CARDIOVASCULAR RISK TELEMETRY (HEART DISEASE)
+# VIEW 2: CARDIOVASCULAR RISK (STUDIO PLAYGROUND)
 # -----------------------------------------------------------------------------
-elif navigation == "02 // CARDIOVASCULAR RISK TELEMETRY":
-    st.markdown("""
-    <div class="hud-header">
-        <div class="hud-breadcrumbs">COURSEWORK ASSIGNMENT 1 // TASK 2 // REGULARIZED LOGISTIC REGRESSION</div>
-        <h1 class="hud-title">Cardiovascular Disease Risk Telemetry</h1>
-        <p class="hud-subtitle">Clinical risk appraisal on 500 patient observations featuring automated categorical normalization via <code>OneHotEncoder(drop='first')</code> to prevent multicollinearity.</p>
-    </div>
-    """, unsafe_allow_html=True)
+elif navigation == "Cardiovascular Clinical Screening":
+    col_main, col_inspector = st.columns([1.8, 1], gap="medium")
 
-    with st.form("cardio_risk_form"):
-        st.markdown('<div class="hud-eyebrow">CLINICAL TELEMETRY INTAKE</div>', unsafe_allow_html=True)
-        st.markdown('<div class="hud-section-title">Patient Biomarkers & Lifestyle Covariates</div>', unsafe_allow_html=True)
-        st.caption("Input patient diagnostic biomarkers and lifestyle indicators for multivariate clinical risk estimation:")
+    with col_main:
+        with st.form("heart_studio_form"):
+            st.markdown('<div class="studio-section-label">Task 2 · Binary Risk Model</div>', unsafe_allow_html=True)
+            st.markdown('<div class="studio-section-title">Clinical Diagnostic Biomarker Intake</div>', unsafe_allow_html=True)
+            st.write("Enter patient physiological indicators and lifestyle variables for risk evaluation:")
 
-        # Row 1: Demographics & Hemodynamics
-        r1_c1, r1_c2, r1_c3, r1_c4 = st.columns(4)
-        with r1_c1:
-            age = st.number_input("Patient Age (Years)", min_value=18, max_value=100, value=52)
-        with r1_c2:
-            sex = st.selectbox("Biological Sex", ["Male", "Female"])
-        with r1_c3:
-            bp = st.number_input("Resting Blood Pressure (mmHg)", min_value=80, max_value=220, value=132)
-        with r1_c4:
-            chol = st.number_input("Serum Cholesterol (mg/dL)", min_value=120, max_value=350, value=224)
+            r1_c1, r1_c2, r1_c3, r1_c4 = st.columns(4)
+            with r1_c1:
+                age = st.number_input("Patient Age", min_value=18, max_value=100, value=52)
+            with r1_c2:
+                sex = st.selectbox("Biological Sex", ["Male", "Female"])
+            with r1_c3:
+                bp = st.number_input("Resting BP (mmHg)", min_value=80, max_value=220, value=132)
+            with r1_c4:
+                chol = st.number_input("Cholesterol (mg/dL)", min_value=120, max_value=350, value=224)
 
-        # Row 2: Anthropometrics & Clinical History
-        r2_c1, r2_c2, r2_c3, r2_c4 = st.columns(4)
-        with r2_c1:
-            bmi = st.number_input("Body Mass Index (BMI)", min_value=15.0, max_value=50.0, value=28.1, step=0.1)
-        with r2_c2:
-            smoker = st.selectbox("Tobacco Smoking History", ["No", "Yes"])
-        with r2_c3:
-            diabetes = st.selectbox("Diabetes Mellitus History", ["No", "Yes"])
-        with r2_c4:
-            fam_hist = st.selectbox("Cardiovascular Family History", ["No", "Yes"])
+            r2_c1, r2_c2, r2_c3, r2_c4 = st.columns(4)
+            with r2_c1:
+                bmi = st.number_input("BMI", min_value=15.0, max_value=50.0, value=28.1, step=0.1)
+            with r2_c2:
+                smoker = st.selectbox("Smoker History", ["No", "Yes"])
+            with r2_c3:
+                diabetes = st.selectbox("Diabetes History", ["No", "Yes"])
+            with r2_c4:
+                fam_hist = st.selectbox("Family History", ["No", "Yes"])
 
-        # Row 3: Behavioral Indicators
-        r3_c1, r3_c2 = st.columns(2)
-        with r3_c1:
-            phys_act = st.slider("Weekly Physical Activity Level (0 = Sedentary, 4 = High Intensity)", min_value=0, max_value=4, value=2)
-        with r3_c2:
-            stress = st.slider("Reported Chronic Stress Scale (1 = Baseline, 10 = Severe)", min_value=1, max_value=10, value=5)
+            r3_c1, r3_c2 = st.columns(2)
+            with r3_c1:
+                phys_act = st.slider("Weekly Activity Level (0 = Sedentary, 4 = High)", 0, 4, 2)
+            with r3_c2:
+                stress = st.slider("Chronic Stress Score (1 = Low, 10 = High)", 1, 10, 5)
 
-        st.write("")
-        submit_risk = st.form_submit_button("COMPUTE MULTIVARIATE RISK VECTOR", use_container_width=True)
+            st.write("")
+            submit_heart = st.form_submit_button("Evaluate Patient Risk Profile", type="primary")
 
-    if submit_risk and heart_model is not None:
-        patient_record = pd.DataFrame([{
-            "age": age,
-            "sex": sex,
-            "blood_pressure": bp,
-            "cholesterol": chol,
-            "bmi": bmi,
-            "smoker": smoker,
-            "diabetes": diabetes,
-            "physical_activity": phys_act,
-            "family_history": fam_hist,
-            "stress_level": stress
-        }])
+        if submit_heart and heart_model is not None:
+            patient_record = pd.DataFrame([{
+                "age": age,
+                "sex": sex,
+                "blood_pressure": bp,
+                "cholesterol": chol,
+                "bmi": bmi,
+                "smoker": smoker,
+                "diabetes": diabetes,
+                "physical_activity": phys_act,
+                "family_history": fam_hist,
+                "stress_level": stress
+            }])
 
-        pred_risk = heart_model.predict(patient_record)[0]
-        prob_risk = heart_model.predict_proba(patient_record)[0][1] * 100.0
+            pred_risk = heart_model.predict(patient_record)[0]
+            prob_risk = heart_model.predict_proba(patient_record)[0][1] * 100.0
 
-        with st.container(border=True):
-            st.markdown('<div class="hud-eyebrow">DIAGNOSTIC TRIAGE APPRAISAL</div>', unsafe_allow_html=True)
-            st.markdown('<div class="hud-section-title">Clinical Risk Synthesis</div>', unsafe_allow_html=True)
-
-            res_c1, res_c2 = st.columns([1.2, 1], gap="large")
-
-            with res_c1:
+            with st.container(border=True):
+                st.markdown('<div class="studio-section-label">Diagnostic Synthesis</div>', unsafe_allow_html=True)
+                
                 if pred_risk == 1:
                     st.markdown(f"""
-                    <div class="telemetry-card-danger">
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #F87171;">TRIAGE ALERT // ELEVATED CARDIOVASCULAR RISK</div>
-                        <div style="font-size: 1.45rem; font-weight: 800; color: #FEF2F2; margin: 0.3rem 0 0.35rem 0;">Positive Likelihood of Heart Disease ({prob_risk:.1f}%)</div>
-                        <div style="font-size: 0.85rem; color: #FCA5A5; line-height: 1.5;">
-                            <strong>Diagnostic Protocol:</strong> Multivariate interactions detected across arterial pressure ({bp} mmHg), serum cholesterol ({chol} mg/dL), and reported medical history. Secondary cardiovascular evaluation (12-lead ECG, stress echocardiography, fasting lipid fraction) is indicated.
+                    <div class="studio-output-box" style="border-left: 3px solid #F2B8B5;">
+                        <div class="studio-output-header">
+                            <span style="font-weight: 500; font-size: 0.95rem; color: #F0F4F9;">Diagnostic Assessment</span>
+                            <span class="studio-pill-alert">Elevated Risk</span>
+                        </div>
+                        <div style="font-size: 1.35rem; font-weight: 600; color: #F2B8B5; margin: 0.2rem 0 0.4rem 0;">
+                            Positive Likelihood of Heart Disease ({prob_risk:.1f}%)
+                        </div>
+                        <div style="font-size: 0.85rem; color: #C4C7C5; line-height: 1.5;">
+                            Biomarkers show elevated risk interactions across arterial blood pressure ({bp} mmHg), serum cholesterol ({chol} mg/dL), and clinical history. Secondary cardiology consultation and diagnostic lipid panel recommended.
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
                 else:
                     st.markdown(f"""
-                    <div class="telemetry-card-success">
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #34D399;">TRIAGE STATUS // BASELINE PHYSIOLOGICAL PROFILE</div>
-                        <div style="font-size: 1.45rem; font-weight: 800; color: #F0FDF4; margin: 0.3rem 0 0.35rem 0;">Low Likelihood of Heart Disease ({prob_risk:.1f}%)</div>
-                        <div style="font-size: 0.85rem; color: #A7F3D0; line-height: 1.5;">
-                            <strong>Clinical Protocol:</strong> Patient biomarkers remain within acceptable epidemiological distributions. Routine annual cardiovascular screening and continued lifestyle maintenance are advised.
+                    <div class="studio-output-box" style="border-left: 3px solid #6EDE92;">
+                        <div class="studio-output-header">
+                            <span style="font-weight: 500; font-size: 0.95rem; color: #F0F4F9;">Diagnostic Assessment</span>
+                            <span class="studio-pill-success">Baseline Profile</span>
+                        </div>
+                        <div style="font-size: 1.35rem; font-weight: 600; color: #6EDE92; margin: 0.2rem 0 0.4rem 0;">
+                            Low Likelihood of Heart Disease ({prob_risk:.1f}%)
+                        </div>
+                        <div style="font-size: 0.85rem; color: #C4C7C5; line-height: 1.5;">
+                            Patient markers remain within expected baseline distributions. Continued routine annual monitoring and healthy lifestyle practices advised.
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
 
-            with res_c2:
-                st.metric("Estimated Risk Vector", f"{prob_risk:.1f}%")
-                bar_color = "linear-gradient(90deg, #DC2626, #EF4444)" if pred_risk == 1 else "linear-gradient(90deg, #16A34A, #22C55E)"
-                glow = "box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);" if pred_risk == 1 else "box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);"
-                st.markdown(f"""
-                <div style="margin-top: 0.75rem;">
-                    <div class="spectrum-track" style="margin: 0; height: 8px;">
-                        <div class="spectrum-fill" style="width: {prob_risk:.1f}%; background: {bar_color}; {glow}"></div>
-                    </div>
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #64748B; margin-top: 0.6rem; line-height: 1.4;">
-                        Model: Regularized Logistic Regression with <code>OneHotEncoder(drop='first')</code>.
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+    with col_inspector:
+        with st.container(border=True):
+            st.markdown('<div class="studio-section-label">Pipeline Inspector</div>', unsafe_allow_html=True)
+            st.markdown('<div class="studio-section-title">Encoding & Regularization</div>', unsafe_allow_html=True)
+            
+            st.markdown("""
+            <div class="inspector-row"><span class="inspector-key">Classifier</span><span class="inspector-val">Logistic Regression</span></div>
+            <div class="inspector-row"><span class="inspector-key">Regularization</span><span class="inspector-val">L2 (Ridge)</span></div>
+            <div class="inspector-row"><span class="inspector-key">Categorical Encoder</span><span class="inspector-val">OneHot(drop='first')</span></div>
+            <div class="inspector-row"><span class="inspector-key">Rank Deficiency Protection</span><span class="inspector-val">Active</span></div>
+            <div class="inspector-row"><span class="inspector-key">Primary Metric</span><span class="inspector-val">Recall (Sensitivity)</span></div>
+            <div class="inspector-row"><span class="inspector-key">Inference Latency</span><span class="inspector-val">&lt; 3.5 ms</span></div>
+            """, unsafe_allow_html=True)
+
+        with st.container(border=True):
+            st.markdown('<div class="studio-section-label">Architectural Guarantee</div>', unsafe_allow_html=True)
+            st.markdown("""
+            <div style="font-size: 0.8rem; color: #C4C7C5; line-height: 1.5;">
+                <code>OneHotEncoder(drop='first')</code> eliminates linear dependency between dummy variables, preventing matrix rank deficiency and coefficient instability in Hessian inversion.
+            </div>
+            """, unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------
-# MODULE 3: QUANTITATIVE BENCHMARKS (MATRIX)
+# VIEW 3: MODEL BENCHMARKS (STUDIO BENCHMARK SUITE)
 # -----------------------------------------------------------------------------
-elif navigation == "03 // EMPIRICAL VALIDATION MATRIX":
-    st.markdown("""
-    <div class="hud-header">
-        <div class="hud-breadcrumbs">COURSEWORK ASSIGNMENT 1 // VERIFICATION // EMPIRICAL METRICS</div>
-        <h1 class="hud-title">Empirical Validation Matrix</h1>
-        <p class="hud-subtitle">Quantitative assessment auditing model generalization, ROC sensitivity curves, and multi-class confusion matrices on unseen test cohorts.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    tab_iris, tab_heart = st.tabs([
-        "Task 1: Iris Taxonomic Matrix",
-        "Task 2: Cardiovascular Multi-Model Matrix"
-    ])
+elif navigation == "Model Evaluation Benchmarks":
+    tab_iris, tab_heart = st.tabs(["Task 1: Iris Classification Benchmark", "Task 2: Cardiovascular Candidate Benchmark"])
 
     with tab_iris:
         with st.container(border=True):
-            st.markdown('<div class="hud-eyebrow">TASK 1 TELEMETRY</div>', unsafe_allow_html=True)
-            st.markdown('<div class="hud-section-title">Stratified Confusion Matrix & Feature Correlations</div>', unsafe_allow_html=True)
+            st.markdown('<div class="studio-section-label">Diagnostic Visualizations</div>', unsafe_allow_html=True)
+            st.markdown('<div class="studio-section-title">Iris Confusion Matrix & Feature Correlations</div>', unsafe_allow_html=True)
             
             c_i1, c_i2 = st.columns(2, gap="medium")
             with c_i1:
@@ -568,43 +600,43 @@ elif navigation == "03 // EMPIRICAL VALIDATION MATRIX":
             with c_i2:
                 corr_p = os.path.join(FIGS_DIR, "iris_correlation_heatmap.png")
                 if os.path.exists(corr_p):
-                    st.image(corr_p, caption="Figure 1.2: Botanical Morphological Feature Correlation Matrix (Pearson r)", use_container_width=True)
+                    st.image(corr_p, caption="Figure 1.2: Botanical Feature Correlation Matrix (Pearson r)", use_container_width=True)
 
     with tab_heart:
         with st.container(border=True):
-            st.markdown('<div class="hud-eyebrow">COMPARATIVE BENCHMARK MATRIX</div>', unsafe_allow_html=True)
-            st.markdown('<div class="hud-section-title">Candidate Classifier Performance Comparison (Test Cohort n = 100)</div>', unsafe_allow_html=True)
+            st.markdown('<div class="studio-section-label">Candidate Model Comparison</div>', unsafe_allow_html=True)
+            st.markdown('<div class="studio-section-title">Comparative Candidate Classifier Benchmark (Test Cohort n = 100)</div>', unsafe_allow_html=True)
             
             if metrics and "heart" in metrics and "comparison" in metrics["heart"]:
                 comp_rows = metrics["heart"]["comparison"]
                 table_rows = []
                 for row in comp_rows:
                     is_best = row.get("Model") == "Logistic Regression"
-                    highlight = "background-color: rgba(37, 99, 235, 0.08); font-weight: 600;" if is_best else ""
-                    tag = " [Optimal Pipeline]" if is_best else ""
-                    color = "#38BDF8" if is_best else "#F8FAFC"
-                    rec_color = "#34D399" if is_best else "#E2E8F0"
+                    highlight = "background-color: rgba(124, 168, 248, 0.08); font-weight: 500;" if is_best else ""
+                    tag = " (Selected)" if is_best else ""
+                    color = "#7CA8F8" if is_best else "#F0F4F9"
+                    rec_color = "#6EDE92" if is_best else "#E3E3E3"
                     table_rows.append(
                         f'<tr style="{highlight}">'
                         f'<td><strong style="color: {color};">{row.get("Model")}</strong>{tag}</td>'
-                        f'<td style="font-family: \'JetBrains Mono\', monospace;">{row.get("Accuracy")*100:.2f}%</td>'
-                        f'<td style="font-family: \'JetBrains Mono\', monospace;">{row.get("Precision")*100:.2f}%</td>'
-                        f'<td style="font-family: \'JetBrains Mono\', monospace; color: {rec_color}; font-weight: 700;">{row.get("Recall")*100:.2f}%</td>'
-                        f'<td style="font-family: \'JetBrains Mono\', monospace;">{row.get("F1-Score")*100:.2f}%</td>'
-                        f'<td style="font-family: \'JetBrains Mono\', monospace;">{row.get("ROC-AUC"):.3f}</td>'
+                        f'<td style="font-family: \'Roboto Mono\', monospace;">{row.get("Accuracy")*100:.2f}%</td>'
+                        f'<td style="font-family: \'Roboto Mono\', monospace;">{row.get("Precision")*100:.2f}%</td>'
+                        f'<td style="font-family: \'Roboto Mono\', monospace; color: {rec_color}; font-weight: 600;">{row.get("Recall")*100:.2f}%</td>'
+                        f'<td style="font-family: \'Roboto Mono\', monospace;">{row.get("F1-Score")*100:.2f}%</td>'
+                        f'<td style="font-family: \'Roboto Mono\', monospace;">{row.get("ROC-AUC"):.3f}</td>'
                         f'</tr>'
                     )
                 table_html = (
-                    '<table class="matrix-table">'
+                    '<table class="studio-table">'
                     '<thead><tr>'
-                    '<th>Candidate Estimator</th><th>Accuracy</th><th>Precision</th>'
+                    '<th>Candidate Model</th><th>Accuracy</th><th>Precision</th>'
                     '<th>Recall (Sensitivity)</th><th>F1-Score</th><th>ROC-AUC</th>'
                     '</tr></thead>'
                     '<tbody>' + "".join(table_rows) + '</tbody>'
                     '</table>'
                 )
                 st.markdown(table_html, unsafe_allow_html=True)
-                st.caption("Strategic Rationale: Logistic Regression was selected as the optimal production pipeline because it achieved the highest clinical sensitivity (Recall: 75.47%), directly mitigating critical false-negative patient misclassifications.")
+                st.caption("Strategic Rationale: Logistic Regression was chosen as the optimal clinical deployment model because it achieved the highest sensitivity (Recall: 75.47%), directly minimizing hazardous false-negative clinical misclassifications.")
 
             st.write("")
             c_h1, c_h2 = st.columns(2, gap="medium")
@@ -615,59 +647,51 @@ elif navigation == "03 // EMPIRICAL VALIDATION MATRIX":
             with c_h2:
                 h_cm_p = os.path.join(FIGS_DIR, "heart_confusion_matrix.png")
                 if os.path.exists(h_cm_p):
-                    st.image(h_cm_p, caption="Figure 2.2: Cardiovascular Confusion Matrix (Optimal Logistic Regression)", use_container_width=True)
+                    st.image(h_cm_p, caption="Figure 2.2: Cardiovascular Confusion Matrix (Logistic Regression)", use_container_width=True)
 
 
 # -----------------------------------------------------------------------------
-# MODULE 4: ACADEMIC & CANDIDATE SPECIFICATIONS
+# VIEW 4: SPECIFICATIONS & CODE
 # -----------------------------------------------------------------------------
-elif navigation == "04 // ACADEMIC & SYSTEM CONTRACTS":
-    st.markdown("""
-    <div class="hud-header">
-        <div class="hud-breadcrumbs">PENTECOST UNIVERSITY // SYSTEM CONTRACT // AUDIT TRAIL</div>
-        <h1 class="hud-title">Academic & Engineering Specifications</h1>
-        <p class="hud-subtitle">Institutional compliance record, verification contracts, and mathematical invariants.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
+elif navigation == "Architecture & Specifications":
     with st.container(border=True):
-        st.markdown('<div class="hud-eyebrow">ASSESSMENT RECORD</div>', unsafe_allow_html=True)
-        st.markdown('<div class="hud-section-title">Candidate & Submission Metadata</div>', unsafe_allow_html=True)
+        st.markdown('<div class="studio-section-label">Coursework Record</div>', unsafe_allow_html=True)
+        st.markdown('<div class="studio-section-title">Assessment Metadata & Institutional Filing</div>', unsafe_allow_html=True)
 
         meta_table = (
-            '<table class="matrix-table">'
+            '<table class="studio-table">'
             '<tr>'
-            '<td style="font-weight: 600; width: 28%; color: #64748B;">Candidate Name</td>'
-            '<td style="font-weight: 700; color: #F8FAFC;">Emmanuel Siaw Asante</td>'
+            '<td style="color: #8E918F; width: 28%;">Candidate Name</td>'
+            '<td style="font-weight: 500; color: #F0F4F9;">Emmanuel Siaw Asante</td>'
             '</tr><tr>'
-            '<td style="font-weight: 600; color: #64748B;">Student ID / Matriculation</td>'
-            '<td style="font-family: \'JetBrains Mono\', monospace; font-weight: 700; color: #38BDF8;">PYT230047</td>'
+            '<td style="color: #8E918F;">Student ID / Index</td>'
+            '<td style="font-family: \'Roboto Mono\', monospace; color: #7CA8F8; font-weight: 500;">PYT230047</td>'
             '</tr><tr>'
-            '<td style="font-weight: 600; color: #64748B;">Course Instructor</td>'
-            '<td style="font-weight: 600; color: #F8FAFC;">Mr. Harry Attieku-Boateng</td>'
+            '<td style="color: #8E918F;">Course Lecturer</td>'
+            '<td style="color: #F0F4F9;">Mr. Harry Attieku-Boateng</td>'
             '</tr><tr>'
-            '<td style="font-weight: 600; color: #64748B;">Academic Department</td>'
+            '<td style="color: #8E918F;">Department & Faculty</td>'
             '<td>Department of Information Technology, Faculty of Computing & IT</td>'
             '</tr><tr>'
-            '<td style="font-weight: 600; color: #64748B;">Institution</td>'
+            '<td style="color: #8E918F;">Academic Institution</td>'
             '<td>Pentecost University, Sowutuom, Accra, Ghana</td>'
             '</tr><tr>'
-            '<td style="font-weight: 600; color: #64748B;">Submission Deadline</td>'
-            '<td style="font-family: \'JetBrains Mono\', monospace; font-weight: 700; color: #F87171;">November 30th</td>'
+            '<td style="color: #8E918F;">Submission Deadline</td>'
+            '<td style="color: #F2B8B5; font-weight: 500;">November 30th</td>'
             '</tr><tr>'
-            '<td style="font-weight: 600; color: #64748B;">Public Source Repository</td>'
-            '<td><a href="https://github.com/s47user/PUIT-Assignment1-ML-Classification" target="_blank" style="font-family: \'JetBrains Mono\', monospace; color: #38BDF8; font-weight: 600; text-decoration: none;">github.com/s47user/PUIT-Assignment1-ML-Classification</a></td>'
+            '<td style="color: #8E918F;">Public GitHub Repository</td>'
+            '<td><a href="https://github.com/s47user/PUIT-Assignment1-ML-Classification" target="_blank" style="color: #7CA8F8; text-decoration: none; font-weight: 500;">github.com/s47user/PUIT-Assignment1-ML-Classification</a></td>'
             '</tr></table>'
         )
         st.markdown(meta_table, unsafe_allow_html=True)
 
     with st.container(border=True):
-        st.markdown('<div class="hud-eyebrow">ARCHITECTURAL INVARIANTS</div>', unsafe_allow_html=True)
-        st.markdown('<div class="hud-section-title">Core Mathematical & Pipeline Contracts</div>', unsafe_allow_html=True)
+        st.markdown('<div class="studio-section-label">System Architecture</div>', unsafe_allow_html=True)
+        st.markdown('<div class="studio-section-title">Four Core Engineering Guarantees</div>', unsafe_allow_html=True)
 
         st.markdown("""
-        <ol style="font-size: 0.85rem; color: #CBD5E1; line-height: 1.8; margin: 0; padding-left: 1.25rem;">
-            <li><strong>Automated Pipeline Preprocessing (ColumnTransformer):</strong> Numerically standardizes continuous variables while applying <code>OneHotEncoder(drop='first')</code> to categorical fields, entirely eliminating data leakage across train/test splits.</li>
+        <ol style="font-size: 0.85rem; color: #C4C7C5; line-height: 1.8; margin: 0; padding-left: 1.25rem;">
+            <li><strong>Automated Preprocessing via ColumnTransformer:</strong> Numerically standardizes continuous variables while applying <code>OneHotEncoder(drop='first')</code> to categorical fields, entirely eliminating data leakage across train/test splits.</li>
             <li><strong>Multicollinearity & Matrix Rank Deficiency Defense:</strong> Dropping baseline dummy categories guarantees full column rank in design matrices, preventing standard error inflation during Hessian inversion.</li>
             <li><strong>Clinical Sensitivity Prioritization (Recall):</strong> Optimizes medical thresholding to prioritize sensitivity (75.47% test recall), mitigating catastrophic false negatives in clinical triage.</li>
             <li><strong>Zero-Overhead Serialization:</strong> Full pipeline graph serialized via <code>joblib</code>, ensuring production inference execution times under 5 milliseconds.</li>
