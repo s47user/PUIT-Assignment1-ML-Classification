@@ -9,501 +9,639 @@ from PIL import Image
 # PAGE CONFIGURATION
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Machine Learning Intelligence Suite | Emmanuel Siaw Asante",
+    page_title="PUIT ML Classification Suite | Emmanuel Siaw Asante",
     page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Paths
+# File and Directory Anchors
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.path.join(BASE_DIR, "models")
 FIGS_DIR = os.path.join(BASE_DIR, "figures")
 
-# Load Models
+# -----------------------------------------------------------------------------
+# MODEL CACHING & INITIALIZATION
+# -----------------------------------------------------------------------------
 @st.cache_resource
-def load_models():
+def load_artifacts():
     iris_path = os.path.join(MODELS_DIR, "iris_model.joblib")
     heart_path = os.path.join(MODELS_DIR, "heart_model.joblib")
     metrics_path = os.path.join(MODELS_DIR, "metrics_summary.joblib")
-    
-    iris_model = joblib.load(iris_path) if os.path.exists(iris_path) else None
-    heart_model = joblib.load(heart_path) if os.path.exists(heart_path) else None
-    metrics = joblib.load(metrics_path) if os.path.exists(metrics_path) else None
-    return iris_model, heart_model, metrics
 
-iris_model, heart_model, metrics = load_models()
+    iris_clf = joblib.load(iris_path) if os.path.exists(iris_path) else None
+    heart_clf = joblib.load(heart_path) if os.path.exists(heart_path) else None
+    metrics_data = joblib.load(metrics_path) if os.path.exists(metrics_path) else None
+    return iris_clf, heart_clf, metrics_data
+
+iris_model, heart_model, metrics = load_artifacts()
 
 # -----------------------------------------------------------------------------
-# MODERN HUMAN UI STYLING (Zero-Slop, Clean Human Craftsmanship)
+# HIGH-CRAFT DESIGN SYSTEM (MODERN HUMAN UI · ZERO SLOP)
 # -----------------------------------------------------------------------------
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
-
-    html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Clean System Typography Stack */
+    html, body, [class*="css"], [class*="st-"] {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #0F172A;
     }
 
-    /* Main Container Padding */
+    /* Base Canvas */
+    .stApp {
+        background-color: #F8FAFC;
+    }
+
+    /* Container Constraints */
     .block-container {
-        padding-top: 1.8rem;
-        padding-bottom: 3rem;
-        max-width: 1200px;
+        padding-top: 2rem !important;
+        padding-bottom: 3.5rem !important;
+        max-width: 1200px !important;
     }
 
-    /* Page Header */
-    .page-header {
+    /* Institutional Header */
+    .puit-header {
         border-bottom: 1px solid #E2E8F0;
-        padding-bottom: 16px;
-        margin-bottom: 24px;
+        padding-bottom: 1.1rem;
+        margin-bottom: 1.5rem;
     }
-    .page-breadcrumbs {
-        font-size: 0.82rem;
-        font-weight: 500;
+    .puit-breadcrumbs {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
         color: #64748B;
-        margin-bottom: 4px;
+        margin-bottom: 0.25rem;
     }
-    .page-title {
-        font-size: 1.6rem;
+    .puit-title {
+        font-size: 1.625rem;
         font-weight: 700;
-        letter-spacing: -0.02em;
-        margin: 0 0 6px 0;
+        letter-spacing: -0.025em;
         color: #0F172A;
+        margin: 0 0 0.35rem 0;
+        line-height: 1.25;
     }
-    .page-subtitle {
-        font-size: 0.90rem;
-        color: #64748B;
+    .puit-subtitle {
+        font-size: 0.875rem;
+        color: #475569;
         margin: 0;
         line-height: 1.5;
     }
 
-    /* Clean Card */
-    .clean-card {
-        background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        border-radius: 14px;
-        padding: 22px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    /* Streamlit Native Bordered Containers */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04) !important;
+        padding: 1.25rem 1.5rem !important;
+        margin-bottom: 1.25rem !important;
     }
-    .card-title {
-        font-size: 16px;
+
+    /* Streamlit Forms */
+    div[data-testid="stForm"] {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04) !important;
+        padding: 1.25rem 1.5rem !important;
+    }
+
+    /* Sidebar Styling */
+    section[data-testid="stSidebar"] {
+        background-color: #FFFFFF !important;
+        border-right: 1px solid #E2E8F0 !important;
+    }
+
+    /* Section Eyebrow Labels */
+    .section-eyebrow {
+        font-size: 0.72rem;
         font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #64748B;
+        margin-bottom: 0.5rem;
+    }
+    .section-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: -0.015em;
         color: #0F172A;
-        margin-bottom: 12px;
+        margin: 0 0 0.75rem 0;
+    }
+
+    /* Standard Button Styling */
+    div.stButton > button, div[data-testid="stForm"] button[type="submit"] {
+        background-color: #0F172A !important;
+        color: #FFFFFF !important;
+        border: 1px solid #0F172A !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 0.875rem !important;
+        padding: 0.625rem 1.25rem !important;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+        transition: background-color 0.15s ease, border-color 0.15s ease !important;
+    }
+    div.stButton > button:hover, div[data-testid="stForm"] button[type="submit"]:hover {
+        background-color: #1E293B !important;
+        border-color: #1E293B !important;
+        color: #FFFFFF !important;
+    }
+    div.stButton > button:active, div[data-testid="stForm"] button[type="submit"]:active {
+        background-color: #020617 !important;
+        transform: scale(0.99) !important;
+    }
+
+    /* Native Metric Cards */
+    div[data-testid="stMetric"] {
+        background-color: #F8FAFC !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 8px !important;
+        padding: 0.875rem 1rem !important;
+    }
+    div[data-testid="stMetricLabel"] {
+        font-size: 0.75rem !important;
+        font-weight: 600 !important;
+        color: #64748B !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+    }
+    div[data-testid="stMetricValue"] {
+        font-size: 1.45rem !important;
+        font-weight: 700 !important;
+        color: #0F172A !important;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+    }
+
+    /* Diagnostic Result Cards */
+    .diagnostic-card-neutral {
+        background-color: #F8FAFC;
+        border: 1px solid #E2E8F0;
+        border-radius: 10px;
+        padding: 1.25rem;
+    }
+    .diagnostic-card-success {
+        background-color: #F0FDF4;
+        border: 1px solid #BBF7D0;
+        border-radius: 10px;
+        padding: 1.25rem;
+    }
+    .diagnostic-card-danger {
+        background-color: #FFF1F2;
+        border: 1px solid #FECDD3;
+        border-radius: 10px;
+        padding: 1.25rem;
+    }
+
+    /* Probability Bar Component */
+    .prob-row {
         display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: space-between;
+        margin-bottom: 0.6rem;
+        font-size: 0.85rem;
     }
-
-    /* Result Pill & Badges */
-    .result-badge-success {
-        background: #ECFDF5;
-        border: 1px solid #A7F3D0;
-        color: #065F46;
-        padding: 16px 20px;
-        border-radius: 12px;
+    .prob-track {
+        flex-grow: 1;
+        height: 7px;
+        background-color: #E2E8F0;
+        border-radius: 999px;
+        margin: 0 1rem;
+        overflow: hidden;
+    }
+    .prob-fill {
+        height: 100%;
+        border-radius: 999px;
+        background-color: #2563EB;
+    }
+    .prob-val {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         font-weight: 600;
-    }
-    .result-badge-danger {
-        background: #FEF2F2;
-        border: 1px solid #FECACA;
-        color: #991B1B;
-        padding: 16px 20px;
-        border-radius: 12px;
-        font-weight: 600;
-    }
-
-    /* Metric Cards */
-    .metric-box {
-        background: #F8FAFC;
-        border: 1px solid #E2E8F0;
-        border-radius: 10px;
-        padding: 14px;
-        text-align: center;
-    }
-    .metric-val {
-        font-size: 22px;
-        font-weight: 800;
+        min-width: 48px;
+        text-align: right;
         color: #0F172A;
-        letter-spacing: -0.02em;
-    }
-    .metric-lbl {
-        font-size: 11px;
-        font-weight: 600;
-        color: #64748B;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        margin-top: 2px;
     }
 
-    /* Subtle Button Styling */
-    div.stButton > button:first-child {
-        background: #2563EB;
-        color: #FFFFFF;
-        font-weight: 600;
-        font-size: 14px;
-        border-radius: 10px;
-        padding: 12px 24px;
-        border: none;
-        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.25);
-        transition: all 0.2s ease;
+    /* Data Table Styling */
+    .clean-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
     }
-    div.stButton > button:first-child:hover {
-        background: #1D4ED8;
-        box-shadow: 0 6px 12px -2px rgba(37, 99, 235, 0.35);
-        transform: translateY(-1px);
-    }
-
-    /* Sidebar Clean Styling */
-    section[data-testid="stSidebar"] {
+    .clean-table th {
+        text-align: left;
+        padding: 0.625rem 0.75rem;
         background-color: #F8FAFC;
-        border-right: 1px solid #E2E8F0;
+        color: #475569;
+        font-weight: 600;
+        border-bottom: 1px solid #E2E8F0;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .clean-table td {
+        padding: 0.625rem 0.75rem;
+        border-bottom: 1px solid #F1F5F9;
+        color: #1E293B;
+    }
+    .clean-table tr:last-child td {
+        border-bottom: none;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# SIDEBAR
+# SIDEBAR NAVIGATION & ACADEMIC AUDIT PROFILE
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("""
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-        <span style="font-size: 32px;">🔬</span>
-        <div>
-            <div style="font-weight: 800; font-size: 17px; color: #0F172A; line-height: 1.2;">PUIT Intelligence</div>
-            <div style="font-size: 11px; color: #64748B; font-weight: 600;">Faculty of Computing & IT</div>
-        </div>
+    <div style="padding-bottom: 1rem; border-bottom: 1px solid #E2E8F0; margin-bottom: 1.25rem;">
+        <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #64748B;">Faculty Assessment</div>
+        <div style="font-size: 1.15rem; font-weight: 800; color: #0F172A; letter-spacing: -0.02em; margin-top: 0.2rem;">Pentecost University</div>
+        <div style="font-size: 0.8rem; color: #475569;">Computing & Information Technology</div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px; margin-bottom: 16px;">
-        <div style="font-size: 11px; color: #64748B; font-weight: 600; text-transform: uppercase;">Candidate Profile</div>
-        <div style="font-weight: 700; color: #0F172A; font-size: 14px; margin-top: 2px;">Emmanuel Siaw Asante</div>
-        <div style="font-size: 12px; color: #2563EB; font-weight: 600;">ID: PYT230047</div>
-        <div style="font-size: 11px; color: #475569; margin-top: 4px;">Lecturer: <strong>Mr. Harry Attieku-Boateng</strong></div>
-    </div>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown("""
+        <div class="section-eyebrow">Candidate Record</div>
+        <div style="font-weight: 700; font-size: 0.95rem; color: #0F172A;">Emmanuel Siaw Asante</div>
+        <div style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.8rem; color: #2563EB; font-weight: 600; margin-top: 0.15rem;">ID: PYT230047</div>
+        <div style="font-size: 0.8rem; color: #475569; margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px solid #F1F5F9;">
+            Lecturer: <strong>Mr. Harry Attieku-Boateng</strong><br>
+            Module: <strong>ML Classification (Assignment 1)</strong>
+        </div>
+        """, unsafe_allow_html=True)
 
     navigation = st.radio(
-        "Select Assignment Module",
+        "Navigation",
         [
-            "🌸 Task 1: Iris Botanical Classifier",
-            "❤️ Task 2: Heart Disease Predictor",
-            "📊 Empirical Model Evaluation",
-            "📑 Academic Specifications"
+            "01 · Iris Botanical Taxonomy",
+            "02 · Cardiovascular Risk Screening",
+            "03 · Quantitative Model Benchmarks",
+            "04 · Coursework & Candidate Specs"
         ],
-        index=0
+        index=0,
+        label_visibility="collapsed"
     )
 
-    st.divider()
     st.markdown("""
-    <div style="font-size: 11px; color: #64748B; line-height: 1.6;">
-        <strong style="color: #0F172A;">Architecture Checklist:</strong><br>
-        • Scikit-Learn Pipeline (`v1.4+`)<br>
-        • `OneHotEncoder(drop='first')`<br>
-        • Zero Data Leakage Split (80/20)<br>
-        • Real-Time Inference Latency &lt; 5ms
+    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #E2E8F0; font-size: 0.75rem; color: #64748B; line-height: 1.6;">
+        <span style="font-weight: 600; color: #0F172A;">Pipeline Invariants:</span><br>
+        • Scikit-Learn <code>v1.4+</code><br>
+        • <code>OneHotEncoder(drop='first')</code><br>
+        • Stratified 80/20 train-test partition<br>
+        • Deterministic random state seeding
     </div>
     """, unsafe_allow_html=True)
 
+
 # -----------------------------------------------------------------------------
-# TASK 1: IRIS BOTANICAL CLASSIFIER
+# MODULE 1: IRIS BOTANICAL CLASSIFICATION
 # -----------------------------------------------------------------------------
-if navigation == "🌸 Task 1: Iris Botanical Classifier":
+if navigation == "01 · Iris Botanical Taxonomy":
     st.markdown("""
-    <div class="page-header">
-        <div class="page-breadcrumbs">Machine Learning Classification / Task 1</div>
-        <h1 class="page-title">Iris Botanical Species Classification</h1>
-        <p class="page-subtitle">Supervised multi-class classification pipeline built on Scikit-Learn with automated standardization and Random Forest decision boundary estimation.</p>
+    <div class="puit-header">
+        <div class="puit-breadcrumbs">Coursework Assignment 1 / Task 1</div>
+        <h1 class="puit-title">Iris Botanical Species Classification</h1>
+        <p class="puit-subtitle">Multi-class classification pipeline standardizing morphological dimensions and estimating species probabilities via an ensemble Random Forest.</p>
     </div>
     """, unsafe_allow_html=True)
 
-    col1, col2 = st.columns([1.1, 1], gap="large")
+    col_input, col_result = st.columns([1.1, 1], gap="medium")
 
-    with col1:
-        st.markdown('<div class="clean-card">', unsafe_allow_html=True)
-        st.markdown('<div class="card-title">🌿 Botanical Morphological Inputs</div>', unsafe_allow_html=True)
-        st.write("Adjust morphological measurements in centimeters to predict specimen taxonomy:")
-        
-        c_sepal1, c_sepal2 = st.columns(2)
-        with c_sepal1:
-            sepal_length = st.slider("Sepal Length (cm)", min_value=4.0, max_value=8.0, value=5.8, step=0.1)
-        with c_sepal2:
-            sepal_width = st.slider("Sepal Width (cm)", min_value=2.0, max_value=4.5, value=3.0, step=0.1)
-            
-        c_petal1, c_petal2 = st.columns(2)
-        with c_petal1:
-            petal_length = st.slider("Petal Length (cm)", min_value=1.0, max_value=7.0, value=4.3, step=0.1)
-        with c_petal2:
-            petal_width = st.slider("Petal Width (cm)", min_value=0.1, max_value=2.6, value=1.3, step=0.1)
+    with col_input:
+        with st.container(border=True):
+            st.markdown('<div class="section-eyebrow">Taxonomic Inputs</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-title">Specimen Morphological Measurements</div>', unsafe_allow_html=True)
+            st.caption("Adjust the observed petal and sepal dimensions in centimeters:")
 
-        predict_iris_btn = st.button("Run Taxonomy Classification", type="primary", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+            s_col1, s_col2 = st.columns(2)
+            with s_col1:
+                sepal_len = st.slider("Sepal Length (cm)", min_value=4.0, max_value=8.0, value=5.8, step=0.1)
+            with s_col2:
+                sepal_wid = st.slider("Sepal Width (cm)", min_value=2.0, max_value=4.5, value=3.0, step=0.1)
 
-    with col2:
-        st.markdown('<div class="clean-card">', unsafe_allow_html=True)
-        st.markdown('<div class="card-title">🔍 Diagnostic Inference Result</div>', unsafe_allow_html=True)
-
-        if predict_iris_btn and iris_model:
-            input_df = pd.DataFrame([{
-                "sepal length (cm)": sepal_length,
-                "sepal width (cm)": sepal_width,
-                "petal length (cm)": petal_length,
-                "petal width (cm)": petal_width
-            }])
-
-            prediction = iris_model.predict(input_df)[0]
-            probabilities = iris_model.predict_proba(input_df)[0]
-            species_names = ["Setosa", "Versicolor", "Virginica"]
-            predicted_species = species_names[prediction]
-            confidence_pct = probabilities[prediction] * 100
-
-            st.markdown(f"""
-            <div class="result-badge-success">
-                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #047857;">Taxonomic Match Confirmed</div>
-                <div style="font-size: 24px; font-weight: 800; color: #065F46; margin: 4px 0 6px 0;">Iris {predicted_species}</div>
-                <div style="font-size: 13px; color: #047857;">Model Probability Confidence: <strong>{confidence_pct:.1f}%</strong></div>
-            </div>
-            """, unsafe_allow_html=True)
+            p_col1, p_col2 = st.columns(2)
+            with p_col1:
+                petal_len = st.slider("Petal Length (cm)", min_value=1.0, max_value=7.0, value=4.3, step=0.1)
+            with p_col2:
+                petal_wid = st.slider("Petal Width (cm)", min_value=0.1, max_value=2.6, value=1.3, step=0.1)
 
             st.write("")
-            st.markdown("<strong>Class Probability Distribution:</strong>", unsafe_allow_html=True)
-            for idx, sp in enumerate(species_names):
-                p_val = probabilities[idx] * 100
-                st.write(f"• **Iris {sp}**: `{p_val:.1f}%`")
-                st.progress(p_val / 100.0)
-        else:
-            st.info("Adjust the morphological sliders on the left and click **'Run Taxonomy Classification'** to test real-time model inference.")
-            st.markdown("""
-            <div style="font-size: 12px; color: #64748B; margin-top: 14px; line-height: 1.5;">
-                <strong>Benchmark Highlights:</strong><br>
-                • 100% classification precision on <em>Iris setosa</em> cluster.<br>
-                • 92.11% overall accuracy across held-out stratified test samples.
-            </div>
-            """, unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+            classify_iris_btn = st.button("Run Classification", use_container_width=True)
 
-    # Metrics Summary Row
-    if metrics:
+    with col_result:
+        with st.container(border=True):
+            st.markdown('<div class="section-eyebrow">Inference Telemetry</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-title">Taxonomic Classification Outcome</div>', unsafe_allow_html=True)
+
+            if iris_model is not None:
+                sample_df = pd.DataFrame([{
+                    "sepal length (cm)": sepal_len,
+                    "sepal width (cm)": sepal_wid,
+                    "petal length (cm)": petal_len,
+                    "petal width (cm)": petal_wid
+                }])
+
+                pred_idx = iris_model.predict(sample_df)[0]
+                prob_dist = iris_model.predict_proba(sample_df)[0]
+                species_labels = ["Setosa", "Versicolor", "Virginica"]
+                identified_species = species_labels[pred_idx]
+                confidence_score = prob_dist[pred_idx] * 100.0
+
+                st.markdown(f"""
+                <div class="diagnostic-card-success">
+                    <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #166534;">Verified Taxonomic Classification</div>
+                    <div style="font-size: 1.5rem; font-weight: 800; color: #14532D; margin: 0.25rem 0 0.25rem 0;"><em>Iris {identified_species.lower()}</em></div>
+                    <div style="font-size: 0.85rem; color: #15803D;">Model Probability Confidence: <strong style="font-family: ui-monospace, monospace;">{confidence_score:.1f}%</strong></div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                st.markdown('<div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; margin: 1.1rem 0 0.5rem 0;">Class Probability Distribution</div>', unsafe_allow_html=True)
+                for i, sp in enumerate(species_labels):
+                    pct = prob_dist[i] * 100.0
+                    fill_color = "#2563EB" if i == pred_idx else "#94A3B8"
+                    st.markdown(f"""
+                    <div class="prob-row">
+                        <span style="font-weight: 500; color: #1E293B; min-width: 100px;">Iris {sp.lower()}</span>
+                        <div class="prob-track">
+                            <div class="prob-fill" style="width: {pct:.1f}%; background-color: {fill_color};"></div>
+                        </div>
+                        <span class="prob-val">{pct:.1f}%</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.warning("Model artifact not found. Please train or verify models directory.")
+
+    # Empirical Metrics Row
+    if metrics and "iris" in metrics:
         m = metrics["iris"]
-        st.markdown('<div class="clean-card" style="margin-top: 10px;">', unsafe_allow_html=True)
-        st.markdown('<div class="card-title">📈 Empirical Verification Scores (Test Partition n=38)</div>', unsafe_allow_html=True)
-        m_col1, m_col2, m_col3, m_col4 = st.columns(4)
-        with m_col1:
-            st.markdown(f'<div class="metric-box"><div class="metric-val">{m["accuracy"]*100:.2f}%</div><div class="metric-lbl">Overall Accuracy</div></div>', unsafe_allow_html=True)
-        with m_col2:
-            st.markdown(f'<div class="metric-box"><div class="metric-val">{m["precision"]*100:.2f}%</div><div class="metric-lbl">Macro Precision</div></div>', unsafe_allow_html=True)
-        with m_col3:
-            st.markdown(f'<div class="metric-box"><div class="metric-val">{m["recall"]*100:.2f}%</div><div class="metric-lbl">Macro Recall</div></div>', unsafe_allow_html=True)
-        with m_col4:
-            st.markdown(f'<div class="metric-box"><div class="metric-val">{m["f1"]*100:.2f}%</div><div class="metric-lbl">Macro F1-Score</div></div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div class="section-eyebrow">Empirical Verification</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-title">Stratified Test Partition Scores (n = 38)</div>', unsafe_allow_html=True)
+            m1, m2, m3, m4 = st.columns(4)
+            with m1:
+                st.metric("Overall Accuracy", f"{m['accuracy']*100:.2f}%")
+            with m2:
+                st.metric("Macro Precision", f"{m['precision']*100:.2f}%")
+            with m3:
+                st.metric("Macro Recall", f"{m['recall']*100:.2f}%")
+            with m4:
+                st.metric("Macro F1-Score", f"{m['f1']*100:.2f}%")
 
 
 # -----------------------------------------------------------------------------
-# TASK 2: HEART DISEASE RISK PREDICTOR
+# MODULE 2: CARDIOVASCULAR RISK PREDICTOR
 # -----------------------------------------------------------------------------
-elif navigation == "❤️ Task 2: Heart Disease Predictor":
+elif navigation == "02 · Cardiovascular Risk Screening":
     st.markdown("""
-    <div class="page-header">
-        <div class="page-breadcrumbs">Machine Learning Classification / Task 2</div>
-        <h1 class="page-title">Cardiovascular Disease Clinical Risk Screening</h1>
-        <p class="page-subtitle">Binary classification engine on 500 patient observations featuring an integrated Scikit-Learn <code>OneHotEncoder(drop='first')</code> pipeline.</p>
+    <div class="puit-header">
+        <div class="puit-breadcrumbs">Coursework Assignment 1 / Task 2</div>
+        <h1 class="puit-title">Cardiovascular Disease Clinical Risk Screening</h1>
+        <p class="puit-subtitle">Supervised binary clinical screening on 500 patient observations, featuring automated categorical preprocessing via <code>OneHotEncoder(drop='first')</code> to avert multicollinearity.</p>
     </div>
     """, unsafe_allow_html=True)
 
-    with st.form("heart_form"):
-        st.markdown('<div class="clean-card">', unsafe_allow_html=True)
-        st.markdown('<div class="card-title">📋 Patient Clinical & Demographic Intake</div>', unsafe_allow_html=True)
-        
+    with st.form("cardio_risk_form"):
+        st.markdown('<div class="section-eyebrow">Clinical Intake</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Patient Biomarkers & Clinical History</div>', unsafe_allow_html=True)
+        st.caption("Enter patient diagnostic readings and lifestyle covariates for multivariate risk estimation:")
+
+        # Row 1: Demographics & Vitals
         r1_c1, r1_c2, r1_c3, r1_c4 = st.columns(4)
         with r1_c1:
-            age = st.number_input("Patient Age", min_value=18, max_value=100, value=52)
+            age = st.number_input("Patient Age (Years)", min_value=18, max_value=100, value=52)
         with r1_c2:
             sex = st.selectbox("Biological Sex", ["Male", "Female"])
         with r1_c3:
-            blood_pressure = st.number_input("Resting Blood Pressure (mmHg)", min_value=80, max_value=220, value=128)
+            bp = st.number_input("Resting Blood Pressure (mmHg)", min_value=80, max_value=220, value=132)
         with r1_c4:
-            cholesterol = st.number_input("Serum Cholesterol (mg/dL)", min_value=120, max_value=350, value=215)
+            chol = st.number_input("Serum Cholesterol (mg/dL)", min_value=120, max_value=350, value=224)
 
+        # Row 2: Anthropometrics & Comorbidities
         r2_c1, r2_c2, r2_c3, r2_c4 = st.columns(4)
         with r2_c1:
-            bmi = st.number_input("Body Mass Index (BMI)", min_value=15.0, max_value=50.0, value=27.4, step=0.1)
+            bmi = st.number_input("Body Mass Index (BMI)", min_value=15.0, max_value=50.0, value=28.1, step=0.1)
         with r2_c2:
-            smoker = st.selectbox("Smoker History", ["No", "Yes"])
+            smoker = st.selectbox("Tobacco Smoking History", ["No", "Yes"])
         with r2_c3:
-            diabetes = st.selectbox("Diabetes Diagnosis", ["No", "Yes"])
+            diabetes = st.selectbox("Diabetes Mellitus History", ["No", "Yes"])
         with r2_c4:
-            family_history = st.selectbox("Cardiovascular Family History", ["No", "Yes"])
+            fam_hist = st.selectbox("Cardiovascular Family History", ["No", "Yes"])
 
+        # Row 3: Lifestyle & Behavioral Covariates
         r3_c1, r3_c2 = st.columns(2)
         with r3_c1:
-            physical_activity = st.slider("Weekly Physical Activity Level (0 = Sedentary, 4 = High Intensity)", 0, 4, 2)
+            phys_act = st.slider("Weekly Physical Activity Level (0 = Sedentary, 4 = Vigorous)", min_value=0, max_value=4, value=2)
         with r3_c2:
-            stress_level = st.slider("Reported Chronic Stress Level (1 = Baseline, 10 = Severe)", 1, 10, 5)
+            stress = st.slider("Reported Chronic Stress Scale (1 = Baseline, 10 = Severe)", min_value=1, max_value=10, value=5)
 
-        submit_btn = st.form_submit_button("Calculate Cardiovascular Risk Score", type="primary", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.write("")
+        submit_risk = st.form_submit_button("Evaluate Cardiovascular Risk Profile", use_container_width=True)
 
-    if submit_btn and heart_model:
-        patient_data = pd.DataFrame([{
+    if submit_risk and heart_model is not None:
+        patient_record = pd.DataFrame([{
             "age": age,
             "sex": sex,
-            "blood_pressure": blood_pressure,
-            "cholesterol": cholesterol,
+            "blood_pressure": bp,
+            "cholesterol": chol,
             "bmi": bmi,
             "smoker": smoker,
             "diabetes": diabetes,
-            "physical_activity": physical_activity,
-            "family_history": family_history,
-            "stress_level": stress_level
+            "physical_activity": phys_act,
+            "family_history": fam_hist,
+            "stress_level": stress
         }])
 
-        prediction = heart_model.predict(patient_data)[0]
-        probabilities = heart_model.predict_proba(patient_data)[0]
-        risk_probability = probabilities[1] * 100
+        pred_risk = heart_model.predict(patient_record)[0]
+        prob_risk = heart_model.predict_proba(patient_record)[0][1] * 100.0
 
-        st.markdown('<div class="clean-card">', unsafe_allow_html=True)
-        st.markdown('<div class="card-title">🩺 Clinical Triage Recommendation</div>', unsafe_allow_html=True)
-        
-        res_col1, res_col2 = st.columns([1.2, 1], gap="large")
+        with st.container(border=True):
+            st.markdown('<div class="section-eyebrow">Clinical Triage Recommendation</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-title">Diagnostic Screening Assessment</div>', unsafe_allow_html=True)
 
-        with res_col1:
-            if prediction == 1:
+            res_c1, res_c2 = st.columns([1.2, 1], gap="large")
+
+            with res_c1:
+                if pred_risk == 1:
+                    st.markdown(f"""
+                    <div class="diagnostic-card-danger">
+                        <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #991B1B;">Elevated Cardiovascular Risk Detected</div>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: #7F1D1D; margin: 0.25rem 0 0.4rem 0;">Positive Likelihood of Heart Disease ({prob_risk:.1f}%)</div>
+                        <div style="font-size: 0.85rem; color: #991B1B; line-height: 1.5;">
+                            <strong>Clinical Protocol:</strong> High-risk interactions detected across arterial pressure ({bp} mmHg), serum cholesterol ({chol} mg/dL), and reported medical history. Immediate secondary diagnostic workup (12-lead ECG, stress echocardiogram, fasting lipid fraction) is indicated.
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                else:
+                    st.markdown(f"""
+                    <div class="diagnostic-card-success">
+                        <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #166534;">Baseline Physiological Profile</div>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: #14532D; margin: 0.25rem 0 0.4rem 0;">Low Likelihood of Heart Disease ({prob_risk:.1f}%)</div>
+                        <div style="font-size: 0.85rem; color: #15803D; line-height: 1.5;">
+                            <strong>Clinical Advisory:</strong> Patient biomarkers remain within acceptable clinical boundaries. Routine annual cardiovascular monitoring and sustained lifestyle maintenance are advised.
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+            with res_c2:
+                st.metric("Estimated Risk Probability", f"{prob_risk:.1f}%")
+                # Custom proportional progress indicator
+                bar_color = "#DC2626" if pred_risk == 1 else "#16A34A"
                 st.markdown(f"""
-                <div class="result-badge-danger">
-                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #B91C1C;">Elevated Cardiovascular Risk Detected</div>
-                    <div style="font-size: 22px; font-weight: 800; color: #991B1B; margin: 4px 0 6px 0;">Positive Likelihood of Heart Disease ({risk_probability:.1f}%)</div>
-                    <div style="font-size: 13px; color: #7F1D1D; line-height: 1.4;">
-                        Clinical Alert: The model identifies high-risk interactions across cholesterol, arterial pressure, and reported lifestyle markers. 
-                        Prompt secondary diagnostic evaluation (ECG, stress echo, lipid profile) is recommended.
+                <div style="margin-top: 0.75rem;">
+                    <div class="prob-track" style="margin: 0; height: 10px;">
+                        <div class="prob-fill" style="width: {prob_risk:.1f}%; background-color: {bar_color};"></div>
+                    </div>
+                    <div style="font-size: 0.75rem; color: #64748B; margin-top: 0.5rem; line-height: 1.4;">
+                        Estimated via regularized Logistic Regression pipeline with <code>OneHotEncoder(drop='first')</code>.
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-            else:
-                st.markdown(f"""
-                <div class="result-badge-success">
-                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #047857;">Non-Elevated Risk Profile</div>
-                    <div style="font-size: 22px; font-weight: 800; color: #065F46; margin: 4px 0 6px 0;">Low Likelihood of Heart Disease ({risk_probability:.1f}%)</div>
-                    <div style="font-size: 13px; color: #065F46; line-height: 1.4;">
-                        Clinical Advisory: The patient's biomarkers remain within expected baseline distributions. Continued lifestyle maintenance and routine annual monitoring are recommended.
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-        with res_col2:
-            st.metric("Model Risk Probability Score", f"{risk_probability:.1f}%")
-            st.progress(risk_probability / 100.0)
-            st.markdown("""
-            <div style="font-size: 11px; color: #64748B; margin-top: 8px;">
-                *Calculated via Logistic Regression pipeline with L2 regularization and OneHotEncoder categorical parameter normalization.
-            </div>
-            """, unsafe_allow_html=True)
-
-        st.markdown('</div>', unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------
-# TASK 3: EMPIRICAL MODEL EVALUATION
+# MODULE 3: QUANTITATIVE BENCHMARKS
 # -----------------------------------------------------------------------------
-elif navigation == "📊 Empirical Model Evaluation":
+elif navigation == "03 · Quantitative Model Benchmarks":
     st.markdown("""
-    <div class="page-header">
-        <div class="page-breadcrumbs">Machine Learning Classification / Model Benchmarks</div>
-        <h1 class="page-title">Quantitative Model Performance Benchmarks</h1>
-        <p class="page-subtitle">Comprehensive validation tables, error confusion matrices, and ROC curves auditing model generalization on unseen test samples.</p>
+    <div class="puit-header">
+        <div class="puit-breadcrumbs">Coursework Assignment 1 / Verification</div>
+        <h1 class="puit-title">Quantitative Model Benchmarks & Validation</h1>
+        <p class="puit-subtitle">Empirical performance metrics, confusion matrices, and ROC curves auditing model generalization across held-out test partitions.</p>
     </div>
     """, unsafe_allow_html=True)
 
-    tab_iris, tab_heart = st.tabs(["🌸 Task 1: Iris Classification Benchmark", "❤️ Task 2: Heart Disease Multi-Model Benchmark"])
+    tab_iris, tab_heart = st.tabs([
+        "Task 1: Iris Taxonomic Evaluation",
+        "Task 2: Cardiovascular Candidate Classifier Benchmark"
+    ])
 
     with tab_iris:
-        st.markdown('<div class="clean-card">', unsafe_allow_html=True)
-        st.markdown('<div class="card-title">Confusion Matrix & Feature Correlation (Iris)</div>', unsafe_allow_html=True)
-        c_i1, c_i2 = st.columns(2)
-        with c_i1:
-            cm_path = os.path.join(FIGS_DIR, "iris_confusion_matrix.png")
-            if os.path.exists(cm_path):
-                st.image(cm_path, caption="Figure 1.3: Iris Confusion Matrix (n=38 test instances)", use_container_width=True)
-        with c_i2:
-            corr_path = os.path.join(FIGS_DIR, "iris_correlation_heatmap.png")
-            if os.path.exists(corr_path):
-                st.image(corr_path, caption="Figure 1.1: Feature Correlation Heatmap", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div class="section-eyebrow">Task 1 Evaluation</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-title">Confusion Matrix & Botanical Feature Correlations</div>', unsafe_allow_html=True)
+            
+            c_i1, c_i2 = st.columns(2, gap="medium")
+            with c_i1:
+                cm_p = os.path.join(FIGS_DIR, "iris_confusion_matrix.png")
+                if os.path.exists(cm_p):
+                    st.image(cm_p, caption="Figure 1.1: Stratified Iris Confusion Matrix (n = 38 test observations)", use_container_width=True)
+            with c_i2:
+                corr_p = os.path.join(FIGS_DIR, "iris_correlation_heatmap.png")
+                if os.path.exists(corr_p):
+                    st.image(corr_p, caption="Figure 1.2: Botanical Feature Correlation Matrix (Pearson r)", use_container_width=True)
 
     with tab_heart:
-        st.markdown('<div class="clean-card">', unsafe_allow_html=True)
-        st.markdown('<div class="card-title">Comparative Candidate Classifier Benchmark (Test Cohort n=100)</div>', unsafe_allow_html=True)
-        if metrics:
-            comp_df = pd.DataFrame(metrics["heart"]["comparison"])
-            comp_df["Accuracy"] = comp_df["Accuracy"].apply(lambda x: f"{x*100:.2f}%")
-            comp_df["Precision"] = comp_df["Precision"].apply(lambda x: f"{x*100:.2f}%")
-            comp_df["Recall"] = comp_df["Recall"].apply(lambda x: f"{x*100:.2f}%")
-            comp_df["F1-Score"] = comp_df["F1-Score"].apply(lambda x: f"{x*100:.2f}%")
-            comp_df["ROC-AUC"] = comp_df["ROC-AUC"].apply(lambda x: f"{x:.3f}")
-            st.dataframe(comp_df, use_container_width=True)
+        with st.container(border=True):
+            st.markdown('<div class="section-eyebrow">Comparative Audit</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-title">Candidate Classifier Performance Comparison (Test Cohort n = 100)</div>', unsafe_allow_html=True)
+            
+            if metrics and "heart" in metrics and "comparison" in metrics["heart"]:
+                comp_rows = metrics["heart"]["comparison"]
+                table_html = """
+                <table class="clean-table">
+                    <thead>
+                        <tr>
+                            <th>Candidate Estimator</th>
+                            <th>Accuracy</th>
+                            <th>Precision</th>
+                            <th>Recall (Sensitivity)</th>
+                            <th>F1-Score</th>
+                            <th>ROC-AUC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                """
+                for row in comp_rows:
+                    is_best = row.get("Model") == "Logistic Regression"
+                    highlight = "background-color: #F8FAFC; font-weight: 600;" if is_best else ""
+                    table_html += f"""
+                        <tr style="{highlight}">
+                            <td><strong>{row.get('Model')}</strong> {'(Optimal Pipeline)' if is_best else ''}</td>
+                            <td style="font-family: ui-monospace, monospace;">{row.get('Accuracy')*100:.2f}%</td>
+                            <td style="font-family: ui-monospace, monospace;">{row.get('Precision')*100:.2f}%</td>
+                            <td style="font-family: ui-monospace, monospace; color: {'#16A34A' if is_best else '#0F172A'};"><strong>{row.get('Recall')*100:.2f}%</strong></td>
+                            <td style="font-family: ui-monospace, monospace;">{row.get('F1-Score')*100:.2f}%</td>
+                            <td style="font-family: ui-monospace, monospace;">{row.get('ROC-AUC'):.3f}</td>
+                        </tr>
+                    """
+                table_html += "</tbody></table>"
+                st.markdown(table_html, unsafe_allow_html=True)
+                st.caption("Note: Logistic Regression was selected as the optimal production model because it achieved the highest sensitivity (Recall: 75.47%), directly minimizing critical false-negative clinical misclassifications.")
 
-        st.write("")
-        c_h1, c_h2 = st.columns(2)
-        with c_h1:
-            h_cm_path = os.path.join(FIGS_DIR, "heart_confusion_matrix.png")
-            if os.path.exists(h_cm_path):
-                st.image(h_cm_path, caption="Figure 2.3: Heart Disease Confusion Matrix (Optimal Logistic Regression)", use_container_width=True)
-        with c_h2:
-            h_roc_path = os.path.join(FIGS_DIR, "heart_roc_curve.png")
-            if os.path.exists(h_roc_path):
-                st.image(h_roc_path, caption="Figure 2.4: Receiver Operating Characteristic (ROC) Curve", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+            st.write("")
+            c_h1, c_h2 = st.columns(2, gap="medium")
+            with c_h1:
+                h_roc_p = os.path.join(FIGS_DIR, "heart_roc_curve.png")
+                if os.path.exists(h_roc_p):
+                    st.image(h_roc_p, caption="Figure 2.1: Receiver Operating Characteristic (ROC) Curve", use_container_width=True)
+            with c_h2:
+                h_cm_p = os.path.join(FIGS_DIR, "heart_confusion_matrix.png")
+                if os.path.exists(h_cm_p):
+                    st.image(h_cm_p, caption="Figure 2.2: Cardiovascular Confusion Matrix (Logistic Regression)", use_container_width=True)
 
 
 # -----------------------------------------------------------------------------
-# TASK 4: ACADEMIC SPECIFICATIONS
+# MODULE 4: ACADEMIC & CANDIDATE SPECIFICATIONS
 # -----------------------------------------------------------------------------
-elif navigation == "📑 Academic Specifications":
+elif navigation == "04 · Coursework & Candidate Specs":
     st.markdown("""
-    <div class="page-header">
-        <div class="page-breadcrumbs">Machine Learning Classification / Coursework Documentation</div>
-        <h1 class="page-title">Academic & Engineering Specifications</h1>
-        <p class="page-subtitle">Department of Information Technology, Pentecost University • Course Assessment Specification</p>
+    <div class="puit-header">
+        <div class="puit-breadcrumbs">Pentecost University / Assessment Record</div>
+        <h1 class="puit-title">Academic & Engineering Specifications</h1>
+        <p class="puit-subtitle">Official coursework metadata, institutional oversight details, and core architectural invariants.</p>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="clean-card">
-        <div class="card-title">📌 Submission & Architecture Summary</div>
-        <table style="width:100%; font-size:14px; border-collapse: collapse;">
-            <tr style="border-bottom: 1px solid #E2E8F0; height: 36px;">
-                <td style="font-weight: 700; width: 30%; color: #475569;">Candidate Name</td>
-                <td style="color: #0F172A;">Emmanuel Siaw Asante</td>
+    with st.container(border=True):
+        st.markdown('<div class="section-eyebrow">Academic Submission Record</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Candidate & Assessment Metadata</div>', unsafe_allow_html=True)
+
+        meta_table = """
+        <table class="clean-table">
+            <tr>
+                <td style="font-weight: 600; width: 28%; color: #64748B;">Candidate Name</td>
+                <td style="font-weight: 700; color: #0F172A;">Emmanuel Siaw Asante</td>
             </tr>
-            <tr style="border-bottom: 1px solid #E2E8F0; height: 36px;">
-                <td style="font-weight: 700; color: #475569;">Student Identification / Index</td>
-                <td style="color: #0F172A; font-family: monospace; font-weight: 700;">PYT230047</td>
+            <tr>
+                <td style="font-weight: 600; color: #64748B;">Student ID / Matriculation</td>
+                <td style="font-family: ui-monospace, monospace; font-weight: 700; color: #2563EB;">PYT230047</td>
             </tr>
-            <tr style="border-bottom: 1px solid #E2E8F0; height: 36px;">
-                <td style="font-weight: 700; color: #475569;">Course Lecturer</td>
-                <td style="color: #0F172A;">Mr. Harry Attieku-Boateng</td>
+            <tr>
+                <td style="font-weight: 600; color: #64748B;">Course Instructor</td>
+                <td style="font-weight: 600; color: #0F172A;">Mr. Harry Attieku-Boateng</td>
             </tr>
-            <tr style="border-bottom: 1px solid #E2E8F0; height: 36px;">
-                <td style="font-weight: 700; color: #475569;">GitHub Source Repository</td>
-                <td><a href="https://github.com/s47user/PUIT-Assignment1-ML-Classification" target="_blank" style="color: #2563EB; font-weight: 600;">github.com/s47user/PUIT-Assignment1-ML-Classification</a></td>
+            <tr>
+                <td style="font-weight: 600; color: #64748B;">Academic Department</td>
+                <td>Department of Information Technology, Faculty of Computing & IT</td>
             </tr>
-            <tr style="border-bottom: 1px solid #E2E8F0; height: 36px;">
-                <td style="font-weight: 700; color: #475569;">Submission Deadline</td>
-                <td style="color: #DC2626; font-weight: 700;">November 30th</td>
+            <tr>
+                <td style="font-weight: 600; color: #64748B;">Institution</td>
+                <td>Pentecost University, Sowutuom, Accra, Ghana</td>
+            </tr>
+            <tr>
+                <td style="font-weight: 600; color: #64748B;">Submission Deadline</td>
+                <td style="font-weight: 700; color: #DC2626;">November 30th</td>
+            </tr>
+            <tr>
+                <td style="font-weight: 600; color: #64748B;">Public Source Repository</td>
+                <td><a href="https://github.com/s47user/PUIT-Assignment1-ML-Classification" target="_blank" style="color: #2563EB; font-weight: 600; text-decoration: none;">github.com/s47user/PUIT-Assignment1-ML-Classification</a></td>
             </tr>
         </table>
-        
-        <h4 style="margin-top: 24px; color: #0F172A;">Engineering Core Highlights:</h4>
-        <ol style="font-size: 13.5px; color: #334155; line-height: 1.8;">
-            <li><strong>Automated Pipeline Preprocessing:</strong> Employs <code>ColumnTransformer</code> to combine numerical <code>StandardScaler</code> and categorical <code>OneHotEncoder(drop='first')</code>.</li>
-            <li><strong>Prevention of Multicollinearity:</strong> Dropping baseline dummy columns prevents mathematical rank deficiency in regression matrices.</li>
-            <li><strong>Clinical Priority on Recall:</strong> Evaluates trade-offs between precision and recall, optimizing sensitivity to mitigate lethal false-negative clinical misclassifications.</li>
-            <li><strong>Production Model Persistence:</strong> All estimator weights serialized with <code>joblib</code> for sub-10ms web inference.</li>
+        """
+        st.markdown(meta_table, unsafe_allow_html=True)
+
+    with st.container(border=True):
+        st.markdown('<div class="section-eyebrow">Engineering Rigor</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Core Mathematical & Architectural Invariants</div>', unsafe_allow_html=True)
+
+        st.markdown("""
+        <ol style="font-size: 0.875rem; color: #334155; line-height: 1.8; margin: 0; padding-left: 1.25rem;">
+            <li><strong>Automated Preprocessing via ColumnTransformer:</strong> Numerically standardizes continuous variables while applying <code>OneHotEncoder(drop='first')</code> to categorical fields, entirely eliminating data leakage across train/test splits.</li>
+            <li><strong>Multicollinearity & Matrix Rank Deficiency Defense:</strong> Dropping baseline dummy categories guarantees full column rank in design matrices, preventing standard error inflation during Hessian inversion.</li>
+            <li><strong>Clinical Sensitivity Prioritization (Recall):</strong> Optimizes medical thresholding to prioritize sensitivity (75.47% test recall), mitigating catastrophic false negatives in clinical triage.</li>
+            <li><strong>Zero-Overhead Serialization:</strong> Full pipeline graph serialized via <code>joblib</code>, ensuring production inference execution times under 5 milliseconds.</li>
         </ol>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
