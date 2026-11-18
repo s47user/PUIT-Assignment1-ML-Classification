@@ -8,6 +8,18 @@
 
 ---
 
+## 🌐 Live Production Deployments
+* **1st Portal — CardioPulse 3D (Heart Disease Risk & Ghana NHIS Engine):**  
+  👉 **[https://puit-heart-disease-3d.vercel.app](https://puit-heart-disease-3d.vercel.app)**  
+  *Features an anatomical 4-chamber cardiovascular model, dynamic Lub-Dub cardiac cycle, Lead-II ECG waveform canvas, real-time client-side Scikit-Learn Logistic Regression inference, and Ghana NHIS Act 852 copay subsidization.*
+* **2nd Portal — IrisBotanica 3D (Botanical Species Classifier):**  
+  👉 **[https://puit-iris-classifier-3d.vercel.app](https://puit-iris-classifier-3d.vercel.app)**  
+  *Features a 3D parametric flower with drooping falls and upright ruffled standards, real-time morphometric deformer, and 100-tree Scikit-Learn Random Forest soft probability classification.*
+* **Streamlit Diagnostic Application:**  
+  👉 [https://puit-assignment1-ml-classification.streamlit.app/](https://puit-assignment1-ml-classification.streamlit.app/)
+
+---
+
 ## 🌟 Executive Overview
 This repository contains the complete implementation for **Assignment 1**, comprising two distinct machine learning classification tasks:
 1. **Part 1: Iris Botanical Species Classification (Scikit-Learn)**  

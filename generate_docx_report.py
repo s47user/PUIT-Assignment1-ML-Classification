@@ -61,7 +61,7 @@ def add_header_block():
     run_title.font.color.rgb = RGBColor(16, 42, 77)
 
     # Metadata Table
-    table = doc.add_table(rows=6, cols=2)
+    table = doc.add_table(rows=7, cols=2)
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     table.autofit = False
 
@@ -70,7 +70,8 @@ def add_header_block():
         ("Student ID / Index Number:", "PYT230047"),
         ("Course Lecturer:", "Mr. Harry Attieku-Boateng"),
         ("GitHub Repository Link:", "https://github.com/s47user/PUIT-Assignment1-ML-Classification"),
-        ("Deployed Web Application:", "https://puit-assignment1-ml-classification.streamlit.app/"),
+        ("Deployed 3D Vercel Portals:", "1st Heart: https://puit-heart-disease-3d.vercel.app\n2nd Iris: https://puit-iris-classifier-3d.vercel.app"),
+        ("Interactive Streamlit App:", "https://puit-assignment1-ml-classification.streamlit.app/"),
         ("Submission Date / Deadline:", "November 2026 | Deadline: November 30th")
     ]
 
@@ -440,17 +441,22 @@ add_figure_with_caption("heart_confusion_matrix.png", "Figure 2.3: Heart Disease
 add_figure_with_caption("heart_roc_curve.png", "Figure 2.4: Receiver Operating Characteristic (ROC) Curve Demonstrating Discrimination Capability.")
 
 # -----------------------------------------------------------------------------
-# 4. WEB APPLICATION & DEPLOYMENT
+# 4. WEB APPLICATION & PRODUCTION DEPLOYMENT
 # -----------------------------------------------------------------------------
-add_heading_1("4. Interactive Web Application Architecture & Deployment")
+add_heading_1("4. Interactive Web Application Architecture & Production Deployments")
 add_body_p(
-    "To fulfill the directive requiring deployed interactive software with a live URL, a multi-page interactive web application was engineered "
-    "using the Streamlit framework. The application decouples interface logic from model estimation by serializing trained Scikit-Learn pipelines "
-    "into joblib binaries, ensuring millisecond-level inference latency."
+    "To fulfill the coursework mandate requiring deployed interactive software with public live URLs, two complementary cloud deployment "
+    "tiers were engineered: (1) a multi-page interactive Streamlit diagnostic laboratory, and (2) two high-performance, mobile-responsive "
+    "3D WebGL portals deployed globally on Vercel Edge infrastructure."
 )
+add_heading_2("4.1 Interactive Streamlit Diagnostic Laboratory")
 add_bullet_p("Iris Flower Classifier Tab:", "Provides interactive real-time sliders for all four morphological dimensions. As adjustments occur, the model renders immediate species classifications accompanied by comparative probability bar charts.")
 add_bullet_p("Heart Disease Predictor Tab:", "Features a clinical intake form accommodating demographic parameters, continuous vitals, and categorical toggles. Upon submission, the OneHotEncoder pipeline transforms raw inputs dynamically and computes patient risk tiering.")
 add_bullet_p("Evaluation & Transparency Tab:", "Displays full empirical metrics tables, embedded confusion matrices, and ROC curves directly to clinical evaluators, ensuring auditability.")
+
+add_heading_2("4.2 Production 3D WebGL Portals Deployed to Vercel")
+add_bullet_p("1st Deployment — CardioPulse 3D (Heart Disease):", "Live at https://puit-heart-disease-3d.vercel.app. Features an anatomically grounded 4-chamber cardiovascular Three.js model (left/right atria, ventricles, ascending aorta with aortic arch branches, pulmonary artery, and coronary vasculature). The heart pulsates in a synchronized Lub-Dub hemodynamic cardiac cycle driven by real-time patient BPM telemetry and a canvas-rendered Lead-II ECG waveform. Patient risk inference evaluates the Scikit-Learn Logistic Regression model with exact StandardScaler and OneHotEncoder parameters directly on the client side, while computing Ghana NHIS Act 852 copay subsidization (70% NHIS coverage, 30% patient copay).")
+add_bullet_p("2nd Deployment — IrisBotanica 3D (Iris Classifier):", "Live at https://puit-iris-classifier-3d.vercel.app. Features a parametric botanical flower model built with Three.js MeshPhysicalMaterial, showcasing 3 drooping outer sepals (falls) with golden beard hairs and nectar veins, and 3 upright inner petals (standards). As users manipulate sepal and petal dimensions, the 3D flower deforms morphometrically in real time, executing the 100-tree Scikit-Learn Random Forest model client-side to output class probabilities for Iris-setosa, Iris-versicolor, and Iris-virginica.")
 
 # -----------------------------------------------------------------------------
 # 5. SOURCE CONTROL & GITHUB COMPLIANCE
